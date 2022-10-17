@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <!--
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -5,11 +7,43 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+         <link rel="icon" type="image/x-icon" href="image/fpt-logo.png">
+        <title>FAP Login</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="CSS/login.css">
     </head>
     <body>
-        <div>TODO write content</div>
+        <img class="bgLogin" src="image/fpt.jpg" alt="">
+        <form  action="login" method="post">
+
+
+            <div class="container">
+                <div class="box"> 
+                    <h1 style="text-align: center">Login</h1>
+                    <div class="inp">
+                        <span style="font-size: 20px"><b>Username:</b></span> 
+                        <input type="text" placeholder="enter your email" name="uname" required> 
+                    </div>
+
+                    <div class="inp"> 
+                        <span style="font-size: 20px"><b>Password:</b> </span> 
+                        <input type="password" placeholder="enter your password" name="psw" required> 
+                    </div>
+
+                    <div class="inp">
+                        <span style="font-size: 20px"><b>Role:  </b></span> 
+                        <select name="logger" id="selector" >
+                            <option value="teacher"> Teacher</option>
+                            <option value="student"> Student</option>
+                        </select>
+                    </div>
+
+                    <div class="inp">
+                    <input type="submit" value="Login"></input>
+                    </div>
+                </div>
+            </div>
+        </form>
     </body>
 </html>
