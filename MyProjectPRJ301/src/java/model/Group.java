@@ -11,13 +11,19 @@ import java.util.ArrayList;
  * @author ThinkPro
  */
 public class Group {
+
     private int gid;
     private String gname;
     private ArrayList<Student> students = new ArrayList();
-      private Subject subject;
+    private Subject subject;
     private Lecturer supervisor;
 
     public Group() {
+    }
+
+    public Group(int gid, String gname) {
+        this.gid = gid;
+        this.gname = gname;
     }
 
     public Group(int gid, String gname, Subject subject, Lecturer supervisor) {
@@ -67,6 +73,4 @@ public class Group {
         this.supervisor = supervisor;
     }
 
-    
-    
 }

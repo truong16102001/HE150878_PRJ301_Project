@@ -17,10 +17,14 @@ public class DateTimeHelper {
     }
 
     public static String dateFormat(java.sql.Date d, String format) {
-
         return new SimpleDateFormat(format).format(d);
     }
 
+    public static String dateFormat2(java.util.Date d, String format){
+        return new SimpleDateFormat(format).format(d);
+    }
+    
+    
     public static int getDayofWeek(java.util.Date d) {
         Calendar c = Calendar.getInstance();
         c.setTime(d);
@@ -121,7 +125,7 @@ public class DateTimeHelper {
     public static int compare(java.sql.Date a, java.sql.Date b) {
         Date e_a = toDateUtil(a);
         Date e_b = toDateUtil(b);
-        System.out.println(a + " " + b + " " + e_a.compareTo(e_b));
+       // System.out.println(a + " " + b + " " + e_a.compareTo(e_b));
         return e_a.compareTo(e_b);
     }
 

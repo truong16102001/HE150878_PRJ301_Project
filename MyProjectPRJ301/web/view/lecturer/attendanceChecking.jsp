@@ -6,6 +6,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<jsp:useBean id="helper" class="utils.DateTimeHelper"/>
 <html>
     <head>
         <link rel="icon" type="image/x-icon" href="../image/fpt-logo.png">
@@ -17,13 +18,30 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
     </head>
     <body>
-        <h1>Take Attendance</h1>
-        <form action="" method="GET">
+
+        <c:if test="${requestScope.ses eq null}"> null </c:if>
+            <h1>Take Attendance</h1>
+            <b>Group:</b> ${requestScope.ses.group.gname} <br>
+        <b>Subject: </b> ${requestScope.ses.group.subject.subname} <br>
+        <b> Room: </b>  ${requestScope.ses.room.rname} <br/>
+        <b>Date: </b> ${requestScope.ses.date} <br>
+        <b>Time:</b> ${requestScope.ses.timeslot.description}<br/>
+        <b>Attended: </b>    
+        <c:if test="${requestScope.ses.attendated}">
+            <span style="color:green"><b>YES</b></span>
+        </c:if>
+        <c:if test="${!requestScope.ses.attendated}">
+            <span style="color:red"><b>NO</b></span>
+        </c:if>
+
+
+        <form action="att" method="post">
+            <input type="hidden" name="sesid" value="${param.id}"/>
+
             <table class="table table-bordered table-striped">
                 <thead style="background-color: #6b90da">
                     <tr>
-                        <th></th>
-                        <th scope="col">GROUP</th>
+                        <th scope="col">No.</th>                      
                         <th scope="col">ROLL NUMBER</th>
                         <th scope="col">FULL NAME</th>
                         <th scope="col">ABSENT</th>
@@ -31,57 +49,44 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <th scope="col">NOTE</th>                     
                     </tr>
                 </thead>
-                <tbody>
+                <tbody>           
                     <tr>
-                        <th>1</th>
-                        <th >SE1645</th>
-                        <th >HE1</th>
-                        <th >Student A</th>
-                        <th ><input  type="radio" name="attend" value="true" /> Attend</th>
-                        <th ><input type="radio" name="attend" value="false"/> Absent</th>
-                        <th ><input type="text" name="note"></th>                     
-                    </tr>
-                    <tr>
-                        <th>2</th>
-                        <th >SE1645</th>
-                        <th >HE2</th>
-                        <th >Student B</th>
-                        <th ><input  type="radio" name="attend" value="true" /> Attend</th>
-                        <th ><input type="radio" name="attend" value="false"/> Absent</th>
-                        <th ><input type="text" name="note"></th>                     
-                    </tr>
-                    <tr>
-                        <th>3</th>
-                        <th >SE1645</th>
-                        <th >HE3</th>
-                        <th >Student C</th>
-                        <th ><input  type="radio" name="attend" value="true" /> Attend</th>
-                        <th ><input type="radio" name="attend" value="false"/> Absent</th>
-                        <th ><input type="text" name="note"></th>                     
-                    </tr>
-                    <tr>
-                        <th>4</th>
-                        <th >SE1645</th>
-                        <th >HE4</th>
-                        <th >Student D</th>
-                        <th ><input  type="radio" name="attend" value="true" /> Attend</th>
-                        <th ><input type="radio" name="attend" value="false"/> Absent</th>
-                        <th ><input type="text" name="note"></th>                     
-                    </tr>
-                    <tr>
-                        <th>5</th>
-                        <th >SE1645</th>
-                        <th >HE5</th>
-                        <th >Student E</th>
-                        <th ><input  type="radio" name="attend" value="true" /> Attend</th>
-                        <th ><input type="radio" name="attend" value="false"/> Absent</th>
-                        <th ><input type="text" name="note"></th>                     
-                    </tr>
-                    
+                        <c:if test="${ (requestScope.ses.attendances eq null) or (requestScope.ses.attendances.size() == 0 )  }">
+                    <h3 style="color:chocolate"> This group does not contain students! </h3>
+                </c:if>
+                </tr>
+                <c:if test="${(requestScope.ses.attendances ne null) and (requestScope.ses.attendances.size() > 0 ) }">
+                    <c:forEach items="${requestScope.ses.attendances}" var="att" varStatus="loop">
+
+                        <tr>
+                            <th scope="col">${loop.index + 1} </th>
+                            <th scope="col" >
+                                ${att.student.stdid} <input type="hidden" name="stdid" value="${att.student.stdid}"/>
+                            </th>
+                            <th scope="col">${att.student.stdname} </th>
+                            <th scope="col">
+                                <input type="radio" 
+                                       <c:if test="${att.present}">  checked="checked"  </c:if> 
+                                       name="present${att.student.stdid}" value="present" />  
+                            </th>
+
+                            <th scope="col">
+                                <input type="radio"
+                                       <c:if test="${!att.present}"> checked="checked" </c:if>
+                                       name="present${att.student.stdid}" value="absent" /> 
+                            </th>
+                            <th scope="col">
+                                <input type="text" name="description{att.student.stdid}" value="${att.description}" /> 
+                            </th>
+                        </tr>
+                    </c:forEach>
+                </c:if>
+
+
                 </tbody>
             </table>
             <div class="add"> <button type="submit"> Add </button> </div>
-           
+
         </form>
     </body>
 </html>

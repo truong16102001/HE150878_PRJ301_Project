@@ -55,6 +55,7 @@ public class Session {
         this.timeslot = timeslot;
     }
 
+    
     public Date getDate() {
         return date;
     }

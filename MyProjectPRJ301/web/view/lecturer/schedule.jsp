@@ -21,9 +21,6 @@
     <body>
         <div id="container">
 
-
-
-
             <form id="form" action="schedule">
 
                 <b>Lecturer:</b>  <select name="lid" >
@@ -32,8 +29,7 @@
                         <option ${(ls.lid == lid)? 'selected':''} value="${ls.lid}">${ls.lname} </option>
                     </c:forEach>
                 </select> <br>
-                <b>From:</b> <input type="date" name="from" value="${requestScope.from}"/>
-                <b> aaa </b>
+                <b>From:</b> <input type="date" name="from" value="${requestScope.from}"/>               
                 <b> To:</b> <input type="date" name="to" value="${requestScope.to}"/>
                 <input type="submit" value="View"/> 
             </form>
@@ -60,7 +56,7 @@
                                 <th scope="col">
                                     <c:forEach items="${requestScope.sessions}" var="ses">
                                         <c:if test="${helper.compare(ses.date,d) eq 0 and (ses.timeslot.tid eq slot.tid)}">
-                                            <a  href="att?id=${ses.id}">${ses.group.gname}-${ses.group.subject.subname} at ${ses.room.rname}</a> <br/>
+                                            <a  href="att?sesid=${ses.id}">${ses.group.gname} <br>Subject: ${ses.group.subject.subname} at ${ses.room.rname}</a> <br/>
                                             <c:if test="${ses.attendated}">
                                                 (<font  color="Green" style="text-align: center">Attended</font>)
                                             </c:if>
@@ -69,7 +65,7 @@
                                             </c:if>
 
                                             <a class="label label-primary" 
-                                               href="https://fu.edunext.vn">-EduNext </a><br>
+                                               href="https://fu.edunext.vn"> -EduNext </a><br>
                                             <span class="label label-success">${slot.description}</span></p></th>
                                         </c:if>
                                     </c:forEach>

@@ -14,7 +14,7 @@ public class Lecturer {
 
     private int lid;
     private String lname;
-    private String username;
+   
     private ArrayList<Group> groups = new ArrayList<>();
     private ArrayList<Session> sessions = new ArrayList<>();
 
@@ -43,11 +43,7 @@ public class Lecturer {
         this.lname = lname;
     }
 
-    public Lecturer(int lid, String lname, String username) {
-        this.lid = lid;
-        this.lname = lname;
-        this.username = username;
-    }
+ 
 
     public int getLid() {
         return lid;
@@ -65,12 +61,6 @@ public class Lecturer {
         this.lname = lname;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
+  
 
 }

@@ -4,9 +4,17 @@
         <servlet-name>LectureScheduleSetvlet</servlet-name>
         <servlet-class>controller.lecturer.scheduleSetvlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AttendanceCheckingServlet</servlet-name>
+        <servlet-class>controller.lecturer.AttendanceCheckingServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LectureScheduleSetvlet</servlet-name>
         <url-pattern>/lecturer/schedule</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AttendanceCheckingServlet</servlet-name>
+        <url-pattern>/lecturer/att</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
