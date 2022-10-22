@@ -19,6 +19,7 @@ import model.Session;
 import model.TimeSlot;
 import utils.DateTimeHelper;
 import dal.SessionDBContext;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -58,7 +59,7 @@ public class scheduleSetvlet extends HttpServlet {
             from = java.sql.Date.valueOf(from_raw);
             to = java.sql.Date.valueOf(to_raw);
         }
-
+        
         request.setAttribute("from", from);
         request.setAttribute("to", to);
 
@@ -121,9 +122,9 @@ public class scheduleSetvlet extends HttpServlet {
                 from = java.sql.Date.valueOf(from_raw);
                 to = java.sql.Date.valueOf(to_raw);
             }
-
-            request.setAttribute("from", from);
-            request.setAttribute("to", to);
+HttpSession session = request.getSession();
+            session.setAttribute("from", from);
+            session.setAttribute("to", to);
 
             request.setAttribute("dates", DateTimeHelper.getDateList(from, to));
 
@@ -139,7 +140,7 @@ public class scheduleSetvlet extends HttpServlet {
             LecturerDBContext lecDB = new LecturerDBContext();
             Lecturer lecturer = lecDB.get(lid);
             request.setAttribute("lecturer", lecturer);
-             request.setAttribute("lid", lid);
+            request.setAttribute("lid", lid);
         } catch (NumberFormatException e) {
             System.out.println(e);
         }

@@ -85,27 +85,25 @@ public class AttendanceCheckingServlet extends HttpServlet {
         try {
             ses.setId(Integer.parseInt(request.getParameter("sesid")));
             String[] stdids = request.getParameterValues("stdid");
-            for (String stdid : stdids) {
-                Attendance a = new Attendance();
-                Student s = new Student();
-                s.setStdid(Integer.parseInt(stdid));
-               
-                a.setDescription(request.getParameter("description" + stdid) == null ? "" : request.getParameter("description" + stdid));
-                a.setPresent(request.getParameter("present" + stdid).equals("present"));
-                a.setStudent(s); 
-                ses.getAttendances().add(a);
-               // response.getWriter().print(request.getParameter("description" + stdid));
+            if (stdids != null) {
+                for (String stdid : stdids) {
+                    Attendance a = new Attendance();
+                    Student s = new Student();
+                    s.setStdid(Integer.parseInt(stdid));
+                    a.setDescription(request.getParameter("description" + stdid) == null ? "" : request.getParameter("description" + stdid));
+                    a.setPresent(request.getParameter("present" + stdid).equals("present"));
+                    a.setStudent(s);
+                    ses.getAttendances().add(a);
+                    // response.getWriter().print(request.getParameter("description" + stdid));
+                }
             }
-           
             SessionDBContext db = new SessionDBContext();
             db.update(ses);
-                  
         } catch (NumberFormatException e) {
         }
 
-     //  response.getWriter().print("abc " + ses.getId());
-      response.sendRedirect("att?id=" + ses.getId());
-
+        //  response.getWriter().print("abc " + ses.getId());
+        response.sendRedirect("att?id=" + ses.getId());
 
     }
 

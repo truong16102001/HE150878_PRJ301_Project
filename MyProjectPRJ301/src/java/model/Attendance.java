@@ -4,7 +4,7 @@
  */
 package model;
 
-import java.util.Date;
+
 
 /**
  *
@@ -17,18 +17,13 @@ public class Attendance {
     private Student student;
     private boolean present;
     private String description;
-    private Date record_time;
+    private String   record_time;   
+           
 
     public Attendance() {
     }
 
-    public Attendance(Session session, Student student, boolean present, String description, Date record_time) {
-        this.session = session;
-        this.student = student;
-        this.present = present;
-        this.description = description;
-        this.record_time = record_time;
-    }
+   
 
   
     public Session getSession() {
@@ -65,11 +60,11 @@ public class Attendance {
 
    
 
-    public Date getRecord_time() {
-        return record_time;
+    public String getRecord_time() {
+        return  record_time;
     }
 
-    public void setRecord_time(Date record_time) {
+    public void setRecord_time(String record_time) {
         this.record_time = record_time;
     }
 

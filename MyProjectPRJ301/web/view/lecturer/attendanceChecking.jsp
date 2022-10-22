@@ -38,7 +38,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
         <form action="att" method="POST">
             <input type="hidden" name="sesid" value="${param.id}"/>
-            
+
             <table class="table table-bordered table-striped">
                 <thead style="background-color: #6b90da">
                     <tr>
@@ -47,36 +47,55 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <th scope="col">FULL NAME</th>
                         <th scope="col">ABSENT</th>
                         <th scope="col">PRESENT</th>
-                        <th scope="col">NOTE</th>                     
+                        <th scope="col">NOTE</th>  
+                        <th scope="col">Record Time</th>
                     </tr>
                 </thead>
-                <tbody>           
-                    <c:forEach items="${requestScope.ses.attendances}" var="att" varStatus="loop">
-                        <tr>
-                            <th scope="col">${loop.index + 1} </th>
-                            <th scope="col" >
-                                ${att.student.stdid} <input type="hidden" name="stdid" value="${att.student.stdid}"/>
-                            </th>
-                            <th scope="col">${att.student.stdname} </th>
-                            <th scope="col">
-                                <input type="radio" 
-                                       <c:if test="${att.present}">  checked="checked"  </c:if> 
-                                       name="present${att.student.stdid}" value="present" />  
-                            </th>
+                <tbody> 
 
-                            <th scope="col">
-                                <input type="radio"
-                                       <c:if test="${!att.present}"> checked="checked" </c:if>
-                                       name="present${att.student.stdid}" value="absent" /> 
+                    <c:if test="${(requestScope.ses.attendances eq null) or (requestScope.ses.attendances.size() == 0)}">
+                        <tr>
+                            <th scope="col" colspan="6">
+                                <h5 style="color:chocolate">This session does not have students!</h5>
                             </th>
-                            <th scope="col">
-                                <input type="text" name="description${att.student.stdid}" value="${att.description}" /> 
-                            </th>
-                        </tr>
-                    </c:forEach>
+                        </tr>                  
+                    </c:if>
+                    <c:if test="${(requestScope.ses.attendances ne null) and (requestScope.ses.attendances.size() > 0)}">
+                        <c:forEach items="${requestScope.ses.attendances}" var="att" varStatus="loop">
+                            <tr>
+                                <th scope="col">${loop.index + 1} </th>
+                                <th scope="col" >
+                                    ${att.student.stdid} <input type="hidden" name="stdid" value="${att.student.stdid}"/>
+                                </th>
+                                <th scope="col">${att.student.stdname} </th>
+                                <th scope="col">
+                                    <input type="radio" 
+                                           <c:if test="${att.present}">  checked="checked"  </c:if> 
+                                           name="present${att.student.stdid}" value="present" />  
+                                </th>
+
+                                <th scope="col">
+                                    <input type="radio"
+                                           <c:if test="${!att.present}"> checked="checked" </c:if>
+                                           name="present${att.student.stdid}" value="absent" /> 
+                                </th>
+                                <th scope="col">
+                                    <input type="text" name="description${att.student.stdid}" value="${att.description}" /> 
+                                </th>
+                                <th scope="col">
+                                    ${att.record_time}
+                                </th>
+                            </tr>
+                        </c:forEach>
+                    </c:if>
                 </tbody>
             </table>
-            <div class="add"> <button type="submit"> <b>Save</b> </button> </div>
+            <div class="add"> <button type="submit"> <b>Save</b> </button> </div> <br>
+
         </form>
+        <div  style="text-align: center">
+            <button type="button" style="border-radius: 10px" > <a  href="schedule?lid=${requestScope.ses.lecturer.lid}&from=${sessionScope.from}&to=${sessionScope.to}" style="text-decoration: none; font-weight: bold"> BACK </a> </button>      
+            <button type="button" style="border-radius: 10px" > <a  href="#" style="text-decoration: none; font-weight: bold"> VIEW ATTENDANCE REPORT </a> </button>  
+        </div>
     </body>
 </html>

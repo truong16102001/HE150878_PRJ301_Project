@@ -29,8 +29,8 @@
                         <option ${(ls.lid == lid)? 'selected':''} value="${ls.lid}">${ls.lname} </option>
                     </c:forEach>
                 </select> <br>
-                <b>From:</b> <input type="date" name="from" value="${requestScope.from}"/>               
-                <b> To:</b> <input type="date" name="to" value="${requestScope.to}"/>
+                <b>From:</b> <input type="date" name="from" value="${sessionScope.from}"/>               
+                <b> To:</b> <input type="date" name="to" value="${sessionScope.to}"/>
                 <input type="submit" value="View"/> 
             </form>
 

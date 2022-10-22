@@ -21,7 +21,5 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 
 .add button:hover{
    background-color: green;
-    color: white;
-   
+    color: white; 
 }
-

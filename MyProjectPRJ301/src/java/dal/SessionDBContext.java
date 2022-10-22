@@ -8,6 +8,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -102,7 +103,7 @@ public class SessionDBContext extends dal.DBContext<Session> {
                     + "	,l.lid,l.lname\n"
                     + "	,sub.subid,sub.subname\n"
                     + "	,s.stdid,s.stdname\n"
-                    + "	,ISNULL(a.present,0) present, ISNULL(a.[description],'') [description]\n"
+                    + "	,ISNULL(a.present,1) present, ISNULL(a.[description],'') [description], a.record_time record_time\n"
                     + "		FROM [Session] ses\n"
                     + "		INNER JOIN Room r ON r.rid = ses.rid\n"
                     + "		INNER JOIN TimeSlot t ON t.tid = ses.tid\n"
@@ -151,16 +152,19 @@ public class SessionDBContext extends dal.DBContext<Session> {
                     ses.setAttendated(rs.getBoolean("attanded"));
                 }
                 //read student
-                Student s = new Student();
-                s.setStdid(rs.getInt("stdid"));
-                s.setStdname(rs.getString("stdname"));
-                //read attandance
-                Attendance a = new Attendance();
-                a.setStudent(s);
-                a.setSession(ses);
-                a.setPresent(rs.getBoolean("present"));
-                a.setDescription(rs.getString("description"));
-                ses.getAttendances().add(a);
+                if (rs.getInt("stdid") != 0) {
+                    Student s = new Student();
+                    s.setStdid(rs.getInt("stdid"));
+                    s.setStdname(rs.getString("stdname"));
+                    //read attandance
+                    Attendance a = new Attendance();
+                    a.setStudent(s);
+                    a.setSession(ses);
+                    a.setPresent(rs.getBoolean("present"));
+                    a.setDescription(rs.getString("description"));                       
+                    a.setRecord_time(rs.getString("record_time"));
+                    ses.getAttendances().add(a);
+                }
 
             }
             return ses;
@@ -208,7 +212,7 @@ public class SessionDBContext extends dal.DBContext<Session> {
                 PreparedStatement stm_insert = connection.prepareStatement(sql);
                 stm_insert.setInt(1, model.getId());
                 stm_insert.setInt(2, att.getStudent().getStdid());
-                stm_insert.setBoolean(3, att.isPresent());
+                stm_insert.setBoolean(3,  att.isPresent());
                 stm_insert.setString(4, att.getDescription());
                 stm_insert.executeUpdate();
             }
