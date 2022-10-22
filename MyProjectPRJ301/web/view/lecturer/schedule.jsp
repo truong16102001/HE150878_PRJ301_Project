@@ -21,7 +21,7 @@
     <body>
         <div id="container">
 
-            <form id="form" action="schedule">
+            <form id="form" action="schedule" method="get">
 
                 <b>Lecturer:</b>  <select name="lid" >
                     <option value="${0}">  CHOOSE  </option>
@@ -56,7 +56,7 @@
                                 <th scope="col">
                                     <c:forEach items="${requestScope.sessions}" var="ses">
                                         <c:if test="${helper.compare(ses.date,d) eq 0 and (ses.timeslot.tid eq slot.tid)}">
-                                            <a  href="att?sesid=${ses.id}">${ses.group.gname} <br>Subject: ${ses.group.subject.subname} at ${ses.room.rname}</a> <br/>
+                                            <a  href="att?id=${ses.id}">${ses.group.gname} <br>Subject: ${ses.group.subject.subname} at ${ses.room.rname}</a> <br/>
                                             <c:if test="${ses.attendated}">
                                                 (<font  color="Green" style="text-align: center">Attended</font>)
                                             </c:if>

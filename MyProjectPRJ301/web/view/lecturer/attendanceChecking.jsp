@@ -20,7 +20,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <body>
 
         <c:if test="${requestScope.ses eq null}"> null </c:if>
-            <h1>Take Attendance</h1>
+
+            <h1>Take Attendance</h1>          
             <b>Group:</b> ${requestScope.ses.group.gname} <br>
         <b>Subject: </b> ${requestScope.ses.group.subject.subname} <br>
         <b> Room: </b>  ${requestScope.ses.room.rname} <br/>
@@ -35,9 +36,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         </c:if>
 
 
-        <form action="att" method="post">
+        <form action="att" method="POST">
             <input type="hidden" name="sesid" value="${param.id}"/>
-
+            
             <table class="table table-bordered table-striped">
                 <thead style="background-color: #6b90da">
                     <tr>
@@ -50,14 +51,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     </tr>
                 </thead>
                 <tbody>           
-                    <tr>
-                        <c:if test="${ (requestScope.ses.attendances eq null) or (requestScope.ses.attendances.size() == 0 )  }">
-                    <h3 style="color:chocolate"> This group does not contain students! </h3>
-                </c:if>
-                </tr>
-                <c:if test="${(requestScope.ses.attendances ne null) and (requestScope.ses.attendances.size() > 0 ) }">
                     <c:forEach items="${requestScope.ses.attendances}" var="att" varStatus="loop">
-
                         <tr>
                             <th scope="col">${loop.index + 1} </th>
                             <th scope="col" >
@@ -76,17 +70,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                        name="present${att.student.stdid}" value="absent" /> 
                             </th>
                             <th scope="col">
-                                <input type="text" name="description{att.student.stdid}" value="${att.description}" /> 
+                                <input type="text" name="description${att.student.stdid}" value="${att.description}" /> 
                             </th>
                         </tr>
                     </c:forEach>
-                </c:if>
-
-
                 </tbody>
             </table>
-            <div class="add"> <button type="submit"> Add </button> </div>
-
+            <div class="add"> <button type="submit"> <b>Save</b> </button> </div>
         </form>
     </body>
 </html>

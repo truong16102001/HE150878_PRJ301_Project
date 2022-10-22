@@ -96,23 +96,23 @@ public class SessionDBContext extends dal.DBContext<Session> {
     public Session get(int id) {
         try {
             String sql = "SELECT ses.sesid,ses.[index],ses.date,ses.attanded\n"
-                    + "                   	,g.gid,g.gname\n"
-                    + "                   	,r.rid,r.rname\n"
-                    + "                   	,t.tid,t.[description] tdescription\n"
-                    + "                    	,l.lid,l.lname\n"
-                    + "                    	,sub.subid,sub.subname\n"
-                    + "                   ,isnull(s.stdid, -1) stdid,isnull(s.stdname,'') stdname\n"
-                    + "                   	,ISNULL(a.present,0) present, ISNULL(a.[description],'') [description]\n"
-                    + "                   		FROM [Session] ses\n"
-                    + "                   	INNER JOIN Room r ON r.rid = ses.rid\n"
-                    + "                    	INNER JOIN TimeSlot t ON t.tid = ses.tid\n"
-                    + "                   		INNER JOIN Lecturer l ON l.lid = ses.lid\n"
-                    + "                  	INNER JOIN [Group] g ON g.gid = ses.gid\n"
-                    + "                   	inner JOIN [Subject] sub ON sub.subid = g.subid\n"
-                    + "                  	left JOIN [Student_Group] sg ON sg.gid = g.gid\n"
-                    + "                  left JOIN [Student] s ON s.stdid = sg.stdid\n"
-                    + "                    	LEFT JOIN Attandance a ON s.stdid = a.stdid AND ses.sesid = a.sesid\n"
-                    + "                    WHERE ses.sesid = ?";
+                    + "	,g.gid,g.gname\n"
+                    + "	,r.rid,r.rname\n"
+                    + "	,t.tid,t.[description] tdescription\n"
+                    + "	,l.lid,l.lname\n"
+                    + "	,sub.subid,sub.subname\n"
+                    + "	,s.stdid,s.stdname\n"
+                    + "	,ISNULL(a.present,0) present, ISNULL(a.[description],'') [description]\n"
+                    + "		FROM [Session] ses\n"
+                    + "		INNER JOIN Room r ON r.rid = ses.rid\n"
+                    + "		INNER JOIN TimeSlot t ON t.tid = ses.tid\n"
+                    + "		INNER JOIN Lecturer l ON l.lid = ses.lid\n"
+                    + "		INNER JOIN [Group] g ON g.gid = ses.gid\n"
+                    + "		INNER JOIN [Subject] sub ON sub.subid = g.subid\n"
+                    + "		left JOIN [Student_Group] sg ON sg.gid = g.gid\n"
+                    + "		left JOIN [Student] s ON s.stdid = sg.stdid\n"
+                    + "		LEFT JOIN Attandance a ON s.stdid = a.stdid AND ses.sesid = a.sesid\n"
+                    + "WHERE ses.sesid = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
@@ -120,6 +120,7 @@ public class SessionDBContext extends dal.DBContext<Session> {
             while (rs.next()) {
                 if (ses == null) {
                     ses = new Session();
+                    ses.setId(rs.getInt("sesid"));
                     Room r = new Room();
                     r.setRid(rs.getInt("rid"));
                     r.setRname(rs.getString("rname"));
@@ -149,21 +150,18 @@ public class SessionDBContext extends dal.DBContext<Session> {
                     ses.setIndex(rs.getInt("index"));
                     ses.setAttendated(rs.getBoolean("attanded"));
                 }
-                
                 //read student
-                if (rs.getInt("stdid") != -1) {
-                    Student s = new Student();
-                    s.setStdid(rs.getInt("stdid"));
-                    s.setStdname(rs.getString("stdname"));
+                Student s = new Student();
+                s.setStdid(rs.getInt("stdid"));
+                s.setStdname(rs.getString("stdname"));
+                //read attandance
+                Attendance a = new Attendance();
+                a.setStudent(s);
+                a.setSession(ses);
+                a.setPresent(rs.getBoolean("present"));
+                a.setDescription(rs.getString("description"));
+                ses.getAttendances().add(a);
 
-                    //read attandance
-                    Attendance a = new Attendance();
-                    a.setStudent(s);
-                    a.setSession(ses);
-                    a.setPresent(rs.getBoolean("present"));
-                    a.setDescription(rs.getString("description"));
-                    ses.getAttendances().add(a);
-                }
             }
             return ses;
         } catch (SQLException ex) {
@@ -179,6 +177,7 @@ public class SessionDBContext extends dal.DBContext<Session> {
 
     @Override
     public void update(Session model) {
+
         try {
             connection.setAutoCommit(false);
             String sql = "UPDATE [Session] SET attanded = 1 WHERE sesid = ?";

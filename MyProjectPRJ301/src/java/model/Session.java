@@ -96,4 +96,11 @@ public class Session {
         this.attendances = attandances;
     }
 
+    @Override
+    public String toString() {
+        return "Session{" + "id=" + id + ", lecturer=" + lecturer + ", room=" + room + ", timeslot=" + timeslot + ", date=" + date + ", group=" + group + ", index=" + index + ", attendated=" + attendated + ", attendances=" + attendances + '}';
+    }
+
+    
+    
 }

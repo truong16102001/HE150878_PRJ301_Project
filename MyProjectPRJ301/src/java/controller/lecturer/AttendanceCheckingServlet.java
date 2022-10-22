@@ -59,13 +59,10 @@ public class AttendanceCheckingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String sesid_raw = request.getParameter("sesid");
- 
-        int sesid;
         try {
-            sesid = (sesid_raw == null) ? 0 : Integer.parseInt(sesid_raw);                               
-            SessionDBContext sesdb = new SessionDBContext();
-            Session ses = sesdb.get(sesid);                   
+            int sesid = Integer.parseInt(request.getParameter("id"));
+            SessionDBContext sesDB = new SessionDBContext();
+            Session ses = sesDB.get(sesid);
             request.setAttribute("ses", ses);
         } catch (NumberFormatException e) {
         }
@@ -85,34 +82,31 @@ public class AttendanceCheckingServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Session ses = new Session();
-        int sesid;
-        String sesid_raw = request.getParameter("sesid");
         try {
-            sesid = (sesid_raw == null) ? 0 : Integer.parseInt(sesid_raw);
-            ses.setId(sesid);
+            ses.setId(Integer.parseInt(request.getParameter("sesid")));
             String[] stdids = request.getParameterValues("stdid");
-            if (stdids != null) {
-                for (String stdid : stdids) {
-                    Attendance a = new Attendance();
-                    Student s = new Student();
-                    a.setStudent(s);
-                    a.setDescription(request.getParameter("description" + stdid));
-                    a.setPresent(request.getParameter("present" + stdid).equals("present"));
-                    s.setStdid(Integer.parseInt(stdid));
-                    ses.getAttendances().add(a);
-                }
-                SessionDBContext db = new SessionDBContext();
-                db.update(ses);
+            for (String stdid : stdids) {
+                Attendance a = new Attendance();
+                Student s = new Student();
+                s.setStdid(Integer.parseInt(stdid));
+               
+                a.setDescription(request.getParameter("description" + stdid) == null ? "" : request.getParameter("description" + stdid));
+                a.setPresent(request.getParameter("present" + stdid).equals("present"));
+                a.setStudent(s); 
+                ses.getAttendances().add(a);
+               // response.getWriter().print(request.getParameter("description" + stdid));
             }
-
+           
+            SessionDBContext db = new SessionDBContext();
+            db.update(ses);
+                  
         } catch (NumberFormatException e) {
         }
 
-        
-        response.sendRedirect("att?sesid=" + ses.getId());
-       
+     //  response.getWriter().print("abc " + ses.getId());
+      response.sendRedirect("att?id=" + ses.getId());
 
-        //  response.sendRedirect("lecturer/schedule");
+
     }
 
     /**
