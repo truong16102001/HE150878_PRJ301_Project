@@ -8,6 +8,10 @@
         <servlet-name>AttendanceCheckingServlet</servlet-name>
         <servlet-class>controller.lecturer.AttendanceCheckingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ReportAttendanceServlet</servlet-name>
+        <servlet-class>controller.lecturer.ReportAttendanceServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LectureScheduleSetvlet</servlet-name>
         <url-pattern>/lecturer/schedule</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>AttendanceCheckingServlet</servlet-name>
         <url-pattern>/lecturer/att</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReportAttendanceServlet</servlet-name>
+        <url-pattern>/lecturer/reportattendance</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

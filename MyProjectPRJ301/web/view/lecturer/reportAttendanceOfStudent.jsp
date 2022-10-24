@@ -5,6 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<jsp:useBean id="helper" class="utils.DateTimeHelper"/>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,199 +15,70 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="../CSS/report.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-        <title>Report Attendance of Student</title>
+        <title>Report Attendance</title>
     </head>
     <body>
-        
+        <h1>Report Attendance </h1>
+        <b>Group:</b> ${requestScope.group.gname} <br>
+        <b>Subject: </b> ${requestScope.subject.subname} <br>
+
         <div id="container">   
-            <div class="head">Report Attendance Of Group SE1645-PRJ301</div>
+
+            
             <table class="table table-bordered table-striped">
-                <thead>
-                    <tr >
+                <thead >
+                    <tr>
                         <th scope="col" >ROLL NUMBER</th>                        
                         <th scope="col">FULL NAME</th>
                         <th scope="col">ABSENT(%)</th>
-                        <th scope="col">SLOT 1</th>
-                        <th scope="col">SLOT 2</th>
-                        <th scope="col">SLOT 3</th>
-                        <th scope="col">SLOT 4</th>
-                        <th scope="col">SLOT 5</th>
-                        <th scope="col">SLOT 6</th>
-                        <th scope="col">SLOT 7</th>
-                        <th scope="col">SLOT 8</th>
-                        <th scope="col">SLOT 9</th>
-                        <th scope="col">SLOT 10</th>
-                        <th scope="col">SLOT 11</th>
-                        <th scope="col">SLOT 12</th>
-                        <th scope="col">SLOT 13</th>
-                        <th scope="col">SLOT 14</th>
-                        <th scope="col">SLOT 15</th>
-                        <th scope="col">SLOT 16</th>
-                        <th scope="col">SLOT 17</th>
-                        <th scope="col">SLOT 18</th>
-                        <th scope="col">SLOT 19</th>
-                        <th scope="col">SLOT 20</th>
-                        <th scope="col">SLOT 21</th>
-                        <th scope="col">SLOT 22</th>
-                        <th scope="col">SLOT 23</th>
-                        <th scope="col">SLOT 24</th>
-                        <th scope="col">SLOT 25</th>
-                        <th scope="col">SLOT 26</th>
-                        <th scope="col">SLOT 27</th>
-                        <th scope="col">SLOT 28</th>
-                        <th scope="col">SLOT 29</th>
-                        <th scope="col">SLOT 30</th>
+                            <c:forEach var="i" begin="1" end="30">
+                            <th scope="col">
+                                <a href="#" style="text-decoration: none; font-weight: bold; color:black"> SLOT ${i}</a>
+                            </th>
+                        </c:forEach>
                     </tr>                  
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><a href="#">S1</a></td>
-                        <td>Student 1</td>
-                        <td>7%</td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Red"> <b>A</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>                      
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">S2</a></td>
-                        <td>Student 2</td>
-                        <td>7%</td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Red"> <b>A</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>  
-                           <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">S3</a></td>
-                        <td>Student 3</td>
-                        <td>7%</td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Red"> <b>A</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td> 
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">S4</a></td>
-                        <td>Student 4</td>
-                        <td>7%</td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Red"> <b>A</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>                        
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">S5</a></td>
-                        <td>Student 5</td>
-                        <td>7%</td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Red"> <b>A</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>                       
-                        <td ><font color="Green"> <b>P</b></font></td>
-                         <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">S6</a></td>
-                        <td>Student 6</td>
-                        <td>7%</td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Red"> <b>A</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>                     
-                        <td ><font color="Green"> <b>P</b></font></td>
-                           <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">S7</a></td>
-                        <td>Student 7</td>
-                        <td>7%</td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Red"> <b>A</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>                        
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                        <td ><font color="Green"> <b>P</b></font></td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">S8</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">S9</a></td>
-                    </tr>
-                    <tr>
-                       <td><a href="#">S10</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">S11</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">S12</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">S13</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">S14</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">S15</a></td>
-                    </tr>
-                    <tr>
-                       <td><a href="#">16</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">S17</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">S18</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">S19</a></td>
-                    </tr>
+                    <c:if test="${(requestScope.sessions ne null) and (requestScope.sessions.size() > 0)}">  
+                        <c:forEach items="${requestScope.stus}" var="stu" >
+                            <tr>
+                                <th scope="col" >
+                                    <a href="#" style="text-decoration: none; color:black"> ${stu.stdid} </a> 
+                                    <input type="hidden" name="stdid" value="${stu.stdid}"/>
+                                </th>
+
+                                <th scope="col">${stu.stdname} </th>
+
+                                <th scope="col">
+                                    <c:forEach var="entry" items="${requestScope.map}">
+                                        <c:if test="${entry.key eq stu.stdid}">
+                                            ${entry.value}%
+                                        </c:if>
+                                    </c:forEach>
+                                </th>
+
+                                <c:forEach var="i" begin="1" end="30"> 
+                                    <th scope="col"> 
+                                        <c:forEach items="${requestScope.sessions}" var="ses"> 
+                                            <c:if test="${ses.index eq i}">
+                                                <c:forEach items="${requestScope.atts}" var="att">
+                                                    <c:if test="${(stu.stdid eq att.student.stdid) and (ses.id eq att.session.id)}">
+                                                        <c:if test="${!att.present}">
+                                                            <font color="Green"> <b>P</b></font>
+                                                        </c:if>
+                                                        <c:if test="${att.present}">
+                                                            <font color="Red"> <b>A</b></font>
+                                                        </c:if>
+                                                    </c:if>
+                                                </c:forEach> 
+                                            </c:if>
+                                        </c:forEach>
+                                    </th>
+                                </c:forEach>
+
+                            </tr>
+                        </c:forEach>
+                    </c:if>
                 </tbody>
 
             </table>

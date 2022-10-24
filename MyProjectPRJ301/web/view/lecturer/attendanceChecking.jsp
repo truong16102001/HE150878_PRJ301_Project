@@ -95,7 +95,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         </form>
         <div  style="text-align: center">
             <button type="button" style="border-radius: 10px" > <a  href="schedule?lid=${requestScope.ses.lecturer.lid}&from=${sessionScope.from}&to=${sessionScope.to}" style="text-decoration: none; font-weight: bold"> BACK </a> </button>      
-            <button type="button" style="border-radius: 10px" > <a  href="#" style="text-decoration: none; font-weight: bold"> VIEW ATTENDANCE REPORT </a> </button>  
+            <button type="button" style="border-radius: 10px" > <a  href="reportattendance?gid=${requestScope.ses.group.gid}&subid=${requestScope.ses.group.subject.subid}" style="text-decoration: none; font-weight: bold"> VIEW ATTENDANCE REPORT </a> </button>  
         </div>
     </body>
 </html>

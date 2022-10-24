@@ -11,8 +11,6 @@ package model;
  * @author ThinkPro
  */
 public class Attendance {
-
-  
     private Session session;
     private Student student;
     private boolean present;
