@@ -4,22 +4,22 @@
  */
 package controller.lecturer;
 
-import dal.SessionDBContext;
+import dal.AccountDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Attendance;
-import model.Session;
-import model.Student;
+import jakarta.servlet.http.HttpSession;
+import model.Account;
+import model.Lecturer;
 
 /**
  *
  * @author ThinkPro
  */
-public class AttendanceCheckingServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +38,10 @@ public class AttendanceCheckingServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AttendanceCheckingServlet</title>");
+            out.println("<title>Servlet LoginServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AttendanceCheckingServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -73,35 +73,36 @@ public class AttendanceCheckingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Session ses = new Session();
-        try {
-            ses.setId(Integer.parseInt(request.getParameter("sesid")));
-            int flag = Integer.parseInt(request.getParameter("flag"));
-            String[] stdids = request.getParameterValues("stdid");
-            if (stdids != null) {
-                for (String stdid : stdids) {
-                    Attendance a = new Attendance();
-                    Student s = new Student();
-                    s.setStdid(Integer.parseInt(stdid));
-                    a.setDescription(request.getParameter("description" + stdid) == null ? "" : request.getParameter("description" + stdid));
-                    a.setPresent(request.getParameter("present" + stdid).equals("present"));
-                    a.setStudent(s);
-                    ses.getAttendances().add(a);
-                    // response.getWriter().print(request.getParameter("description" + stdid));
-                }
+        HttpSession session = request.getSession();
+
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        AccountDBContext db = new AccountDBContext();
+        Account acc = db.get(username, password);
+
+//        response.sendRedirect("/lecturer/schedule2?lid=1&from=2022-10-24&to=2022-10-30");
+        // response.getWriter().print(acc.getUsername() + " " + acc.getPassword() + " " + acc.getDisplayname());
+        if (acc != null) {
+            try {
+                session.setAttribute("acc", acc);
+              //  session.setAttribute("flag", "1");
+//                Lecturer lec = db.getAcReturnLecturer(acc.getUsername(), acc.getPassword());
+//                //response.getWriter().print(lec.getLid() + " " + lec.getLname());
+//                if (lec != null) {
+//                    response.sendRedirect("lecturer/schedule?lid=" + lec.getLid() + "&from=" + "" + "&to=" + "");
+//                } else {
+//                    response.sendRedirect("lecturer/schedule?lid=" + "0" + "&from=" + "" + "&to=" + "");
+//                }
+//               
+               
+               response.sendRedirect("lecturer/schedule");
+            } catch (NullPointerException e) {
             }
-            SessionDBContext db = new SessionDBContext();
-            db.update(ses);
-            Session ses2 = db.get(ses.getId());
-            request.setAttribute("ses", ses2);
-           request.setAttribute("flag", flag);
-        } catch (NumberFormatException e) {
+        } else {
+            session.setAttribute("error", "Invalid username or password. Try again!");
+            request.getRequestDispatcher("view/login.jsp").forward(request, response);
         }
 
-        //  response.getWriter().print("abc " + ses.getId());
-        //response.sendRedirect("/myprojectprj301/lecturer/attview");
-        // request.getRequestDispatcher("/lecturer/attview").forward(request, response);
-        request.getRequestDispatcher("../view/lecturer/attendanceChecking.jsp").forward(request, response);
     }
 
     /**

@@ -25,7 +25,7 @@ a.label.label-primary{
     background-color: #337ab7;
     color: white;
     text-decoration: none;
-    
+
 }
 
 span.label.label-success{
@@ -34,6 +34,19 @@ span.label.label-success{
     text-align: center;
 }
 
+
+
+.bt {
+    background-color: white;
+    font-weight: bold;
+    color: blue;
+    border: 1px solid #4CAF50;
+}
+
+.bt:hover {
+    background-color: #4CAF50;
+    color: white;
+}
 
 
 

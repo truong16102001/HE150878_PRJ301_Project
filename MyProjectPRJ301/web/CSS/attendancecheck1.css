@@ -1,0 +1,57 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 14, 2022, 1:43:28 AM
+    Author     : ThinkPro
+*/
+
+.add {
+    text-align: center;
+}
+
+.add button{
+    background-color: white;
+    width: 75px;
+    height: 30px;
+    color: black;
+    border: 2px solid #4CAF50;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+.add button:hover{
+    background-color: #4CAF50;
+    color: white;
+}
+.bt1{
+    width: 150px;
+    height: 35px;
+    background-color: white;
+    color: black;
+    font-size: 24px;
+    border: 2px solid #008CBA;
+    border-radius: 10px;
+}
+
+.bt1:hover{
+    background-color: #008CBA;
+    color: white;
+}
+
+.btt{
+    width: 370px;
+    height: 40px;
+    background-color: white;
+    color: black;
+    font-size: 24px;
+    border: 2px solid #555555;
+    font-weight: bold;
+    text-align: center;
+}
+
+.btt:hover{
+    background-color: #555555;
+    color: white;
+}

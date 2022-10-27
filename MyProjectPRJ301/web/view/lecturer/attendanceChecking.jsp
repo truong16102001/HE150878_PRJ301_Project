@@ -10,15 +10,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 <html>
     <head>
         <link rel="icon" type="image/x-icon" href="../image/fpt-logo.png">
-        <link rel="stylesheet" href="../CSS/attendancecheck.css">
+        <link rel="stylesheet" href="../CSS/attendancecheck1.css">
         <title>Attendance Checking</title>
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 
     </head>
     <body>
-
+        <h2><span style="margin-right: 800px">Hello <b>${sessionScope.acc.displayname} </b> ,</span>
+            &nbsp;
+            <span>
+                <a href="../logout" style="text-decoration: none">Logout?</a>
+            </span> </h2>
         <c:if test="${requestScope.ses eq null}"> null </c:if>
 
             <h1>Take Attendance</h1>          
@@ -36,7 +42,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         </c:if>
 
 
-        <form action="att" method="POST">
+        <form action="/myprojectprj301/lecturer/att" method="POST">
             <input type="hidden" name="sesid" value="${param.id}"/>
 
             <table class="table table-bordered table-striped">
@@ -60,6 +66,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             </th>
                         </tr>                  
                     </c:if>
+
                     <c:if test="${(requestScope.ses.attendances ne null) and (requestScope.ses.attendances.size() > 0)}">
                         <c:forEach items="${requestScope.ses.attendances}" var="att" varStatus="loop">
                             <tr>
@@ -90,12 +97,34 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     </c:if>
                 </tbody>
             </table>
-            <div class="add"> <button type="submit"> <b>Save</b> </button> </div> <br>
+            <input type="hidden" name="flag" value="1" />
+            <c:if test="${requestScope.flag eq 1}">
+                <div class="add"> <button type="submit"> <b>SAVE</b> </button> </div> <br>
+            </c:if>
 
         </form>
-        <div  style="text-align: center">
-            <button type="button" style="border-radius: 10px" > <a  href="schedule?lid=${requestScope.ses.lecturer.lid}&from=${sessionScope.from}&to=${sessionScope.to}" style="text-decoration: none; font-weight: bold"> BACK </a> </button>      
-            <button type="button" style="border-radius: 10px" > <a  href="reportattendance?gid=${requestScope.ses.group.gid}&subid=${requestScope.ses.group.subject.subid}" style="text-decoration: none; font-weight: bold"> VIEW ATTENDANCE REPORT </a> </button>  
-        </div>
+        <c:if test="${requestScope.flag eq 1}">
+            <div style="text-align: center">
+                
+                <button class="bt1" onclick="history.back()" style="font-size:24px">Go Back <i class="fa fa-arrow-circle-left"></i></button>
+                        <br/> <br/>
+               
+                    <form action="/myprojectprj301/lecturer/reportattendance" method="post">
+                        <input type="hidden" name="gid" value="${requestScope.ses.group.gid}" />
+                        <input type="hidden" name="subid" value="${requestScope.ses.group.subject.subid}" />
+
+                        <button  class="btt" type="submit" style="border-radius: 10px" > 
+                            VIEW ATTENDANCE REPORT <i class="fa fa-arrow-circle-right"></i>                           
+                        </button>     
+                    </form>
+                    
+            </div>
+
+
+
+            <c:if test="${requestScope.flag eq 0}">                            
+               <button onclick="history.back()" style="font-size:24px">Go Back <i class="fa fa-arrow-circle-left"></i></button>
+            </c:if>
+        </c:if>
     </body>
 </html>

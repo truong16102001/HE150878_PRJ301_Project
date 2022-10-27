@@ -11,15 +11,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Attendance;
 import model.Session;
-import model.Student;
 
 /**
  *
  * @author ThinkPro
  */
-public class AttendanceCheckingServlet extends HttpServlet {
+public class AttendanceView extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +36,10 @@ public class AttendanceCheckingServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AttendanceCheckingServlet</title>");
+            out.println("<title>Servlet AttendanceView</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AttendanceCheckingServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AttendanceView at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,7 +57,7 @@ public class AttendanceCheckingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        processRequest(request, response);
     }
 
     /**
@@ -73,34 +71,15 @@ public class AttendanceCheckingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Session ses = new Session();
         try {
-            ses.setId(Integer.parseInt(request.getParameter("sesid")));
+            int sesid = Integer.parseInt(request.getParameter("id"));
             int flag = Integer.parseInt(request.getParameter("flag"));
-            String[] stdids = request.getParameterValues("stdid");
-            if (stdids != null) {
-                for (String stdid : stdids) {
-                    Attendance a = new Attendance();
-                    Student s = new Student();
-                    s.setStdid(Integer.parseInt(stdid));
-                    a.setDescription(request.getParameter("description" + stdid) == null ? "" : request.getParameter("description" + stdid));
-                    a.setPresent(request.getParameter("present" + stdid).equals("present"));
-                    a.setStudent(s);
-                    ses.getAttendances().add(a);
-                    // response.getWriter().print(request.getParameter("description" + stdid));
-                }
-            }
-            SessionDBContext db = new SessionDBContext();
-            db.update(ses);
-            Session ses2 = db.get(ses.getId());
-            request.setAttribute("ses", ses2);
-           request.setAttribute("flag", flag);
+            SessionDBContext sesDB = new SessionDBContext();
+            Session ses = sesDB.get(sesid);
+            request.setAttribute("ses", ses);
+            request.setAttribute("flag", flag);
         } catch (NumberFormatException e) {
         }
-
-        //  response.getWriter().print("abc " + ses.getId());
-        //response.sendRedirect("/myprojectprj301/lecturer/attview");
-        // request.getRequestDispatcher("/lecturer/attview").forward(request, response);
         request.getRequestDispatcher("../view/lecturer/attendanceChecking.jsp").forward(request, response);
     }
 

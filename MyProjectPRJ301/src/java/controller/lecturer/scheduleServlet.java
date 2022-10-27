@@ -4,6 +4,7 @@
  */
 package controller.lecturer;
 
+import dal.AccountDBContext;
 import dal.LecturerDBContext;
 import dal.TimeSlotDBContext;
 import java.io.IOException;
@@ -20,12 +21,13 @@ import model.TimeSlot;
 import utils.DateTimeHelper;
 import dal.SessionDBContext;
 import jakarta.servlet.http.HttpSession;
+import model.Account;
 
 /**
  *
  * @author ThinkPro
  */
-public class scheduleSetvlet extends HttpServlet {
+public class scheduleServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,47 +40,6 @@ public class scheduleSetvlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int lid = Integer.parseInt(request.getParameter("lid"));
-        String from_raw = request.getParameter("from");
-        String to_raw = request.getParameter("to");
-
-        java.sql.Date from = null;
-        java.sql.Date to = null;
-
-        if (from_raw == null || from_raw.length() == 0) { // khi user khong nhap date thi mac dinh lay date hien tai
-            Date today = new Date();
-            int todayOfWeek = DateTimeHelper.getDayofWeek(today);
-            if (todayOfWeek == 1) {
-                todayOfWeek = 8;
-            }
-            Date u_from = DateTimeHelper.addDays(today, 2 - todayOfWeek);
-            Date u_to = DateTimeHelper.addDays(today, 8 - todayOfWeek);
-            from = DateTimeHelper.toDateSql(u_from);
-            to = DateTimeHelper.toDateSql(u_to);
-        } else {
-            from = java.sql.Date.valueOf(from_raw);
-            to = java.sql.Date.valueOf(to_raw);
-        }
-        
-        request.setAttribute("from", from);
-        request.setAttribute("to", to);
-
-        request.setAttribute("dates", DateTimeHelper.getDateList(from, to));
-
-        TimeSlotDBContext slotDB = new TimeSlotDBContext();
-        ArrayList<TimeSlot> slots = slotDB.list();
-        request.setAttribute("slots", slots);
-
-        SessionDBContext sesDB = new SessionDBContext();
-        ArrayList<Session> sessions = sesDB.filter(lid, from, to);
-
-        request.setAttribute("sessions", sessions);
-
-        LecturerDBContext lecDB = new LecturerDBContext();
-        Lecturer lecturer = lecDB.get(lid);
-        request.setAttribute("lecturer", lecturer);
-
-        request.getRequestDispatcher("../view/lecturer/schedule.jsp").forward(request, response);
 
     }
 
@@ -94,14 +55,22 @@ public class scheduleSetvlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         LecturerDBContext ldb = new LecturerDBContext();
         ArrayList<Lecturer> lectures = ldb.list();
         request.setAttribute("lecturers", lectures);
-        //  request.getRequestDispatcher("../view/lecturer/schedule.jsp").forward(request, response);
-        // processRequest(request, response);
-        String lid_raw = request.getParameter("lid");
-        String from_raw = request.getParameter("from");
-        String to_raw = request.getParameter("to");
+        HttpSession session = request.getSession();
+        String lid_raw = null, from_raw = "", to_raw = "";
+
+        AccountDBContext db = new AccountDBContext();
+        Account acc = (Account) request.getSession().getAttribute("acc");
+
+        Lecturer lec = db.getAcReturnLecturer(acc.getUsername(), acc.getPassword());
+        if (lec != null) {
+            //  response.getWriter().print("ok" + lec.getLid() + " " + lec.getLname());
+            lid_raw = String.valueOf(lec.getLid());
+        }
+
         int lid;
         java.sql.Date from = null;
         java.sql.Date to = null;
@@ -122,7 +91,7 @@ public class scheduleSetvlet extends HttpServlet {
                 from = java.sql.Date.valueOf(from_raw);
                 to = java.sql.Date.valueOf(to_raw);
             }
-HttpSession session = request.getSession();
+
             session.setAttribute("from", from);
             session.setAttribute("to", to);
 
@@ -146,6 +115,7 @@ HttpSession session = request.getSession();
         }
 
         request.getRequestDispatcher("../view/lecturer/schedule.jsp").forward(request, response);
+
     }
 
     /**
@@ -159,7 +129,58 @@ HttpSession session = request.getSession();
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // processRequest(request, response);
+
+        LecturerDBContext ldb = new LecturerDBContext();
+        ArrayList<Lecturer> lectures = ldb.list();
+        request.setAttribute("lecturers", lectures);
+
+        String lid_raw = request.getParameter("lid");
+        String from_raw = request.getParameter("from");
+        String to_raw = request.getParameter("to");
+        int lid;
+        java.sql.Date from = null;
+        java.sql.Date to = null;
+        try {
+            lid = (lid_raw == null) ? 0 : Integer.parseInt(lid_raw);
+
+            if (from_raw == null || from_raw.length() == 0) { // khi user khong nhap date thi mac dinh lay date hien tai
+                Date today = new Date();
+                int todayOfWeek = DateTimeHelper.getDayofWeek(today);
+                if (todayOfWeek == 1) {
+                    todayOfWeek = 8;
+                }
+                Date u_from = DateTimeHelper.addDays(today, 2 - todayOfWeek);
+                Date u_to = DateTimeHelper.addDays(today, 8 - todayOfWeek);
+                from = DateTimeHelper.toDateSql(u_from);
+                to = DateTimeHelper.toDateSql(u_to);
+            } else {
+                from = java.sql.Date.valueOf(from_raw);
+                to = java.sql.Date.valueOf(to_raw);
+            }
+            HttpSession session = request.getSession();
+            session.setAttribute("from", from);
+            session.setAttribute("to", to);
+
+            request.setAttribute("dates", DateTimeHelper.getDateList(from, to));
+
+            TimeSlotDBContext slotDB = new TimeSlotDBContext();
+            ArrayList<TimeSlot> slots = slotDB.list();
+            request.setAttribute("slots", slots);
+
+            SessionDBContext sesDB = new SessionDBContext();
+            ArrayList<Session> sessions = sesDB.filter(lid, from, to);
+
+            request.setAttribute("sessions", sessions);
+
+            LecturerDBContext lecDB = new LecturerDBContext();
+            Lecturer lecturer = lecDB.get(lid);
+            request.setAttribute("lecturer", lecturer);
+            request.setAttribute("lid", lid);
+        } catch (NumberFormatException e) {
+            System.out.println(e);
+        }
+
+        request.getRequestDispatcher("../view/lecturer/schedule.jsp").forward(request, response);
     }
 
     /**

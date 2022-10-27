@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
-        <servlet-name>LectureScheduleSetvlet</servlet-name>
-        <servlet-class>controller.lecturer.scheduleSetvlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>AttendanceCheckingServlet</servlet-name>
         <servlet-class>controller.lecturer.AttendanceCheckingServlet</servlet-class>
     </servlet>
@@ -12,10 +8,26 @@
         <servlet-name>ReportAttendanceServlet</servlet-name>
         <servlet-class>controller.lecturer.ReportAttendanceServlet</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>LectureScheduleSetvlet</servlet-name>
-        <url-pattern>/lecturer/schedule</url-pattern>
-    </servlet-mapping>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>controller.lecturer.LoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>scheduleServlet</servlet-name>
+        <servlet-class>controller.lecturer.scheduleServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HomeBegin</servlet-name>
+        <servlet-class>controller.lecturer.HomeBeginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>controller.lecturer.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AttendanceView</servlet-name>
+        <servlet-class>controller.lecturer.AttendanceView</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AttendanceCheckingServlet</servlet-name>
         <url-pattern>/lecturer/att</url-pattern>
@@ -24,9 +36,34 @@
         <servlet-name>ReportAttendanceServlet</servlet-name>
         <url-pattern>/lecturer/reportattendance</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>scheduleServlet</servlet-name>
+        <url-pattern>/lecturer/schedule</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomeBegin</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AttendanceView</servlet-name>
+        <url-pattern>/lecturer/attview</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>
+            home
+        </welcome-file>
+    </welcome-file-list>
 </web-app>

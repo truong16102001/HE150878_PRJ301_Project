@@ -329,9 +329,10 @@ public class SessionDBContext extends dal.DBContext<Session> {
             stm.executeUpdate();
 
             //remove old attandances
-            sql = "DELETE Attandance WHERE sesid = ?";
+            sql = "DELETE Attandance WHERE sesid = ? ";
             PreparedStatement stm_delete = connection.prepareStatement(sql);
             stm_delete.setInt(1, model.getId());
+           
             stm_delete.executeUpdate();
 
             //insert new attandances

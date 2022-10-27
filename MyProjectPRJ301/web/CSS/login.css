@@ -2,6 +2,7 @@
 
 body {
     background-size: cover;
+    background-repeat: no-repeat; 
     height: 100%;
     overflow: hidden;
 }
@@ -21,10 +22,17 @@ body {
     margin: 0 auto;
 }
 
+img.avatar{
+    width: 40%;
+    height: 40%;
+}
+
+
+
 .box{
-    width: 280px;
-    height: 400px;
-    background: #FF9933;
+    width: 300px;
+    height: 440px;
+    background: cornsilk;
     margin: 0;
     padding: 30px;
     top: 55%;
@@ -36,14 +44,20 @@ body {
     box-sizing: border-box;
 }
 
+div.alert{
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+}
 .box input[type="text"],
 .box input[type="password"] {
     border: none;
-    background: transparent;
+     background: transparent;
     border-bottom: 1px solid #E8E8E8;
     outline: none;
     height: 25px;
-    color: #fff;
+    color: gray;
     font-size: 15px;
     margin-top: 5px;
 }

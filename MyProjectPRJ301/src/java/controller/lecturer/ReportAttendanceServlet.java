@@ -69,6 +69,20 @@ public class ReportAttendanceServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         int gid, subid;
         try {
 
@@ -105,25 +119,11 @@ public class ReportAttendanceServlet extends HttpServlet {
 //            for (Map.Entry<Integer, Double> entry : map.entrySet()) {
 //                response.getWriter().println(entry.getKey() + "--- " + entry.getValue());
 //            }
-
+            request.setAttribute("flag", "0");
             request.setAttribute("map", map);
         } catch (NumberFormatException e) {
         }
         request.getRequestDispatcher("../view/lecturer/reportAttendanceOfStudent.jsp").forward(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**

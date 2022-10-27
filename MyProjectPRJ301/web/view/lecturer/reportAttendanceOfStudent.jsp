@@ -1,3 +1,4 @@
+
 <%-- 
     Document   : reportAttendanceOfStudent
     Created on : Oct 14, 2022, 1:50:45 AM
@@ -13,18 +14,23 @@
     <head>
         <link rel="icon" type="image/x-icon" href="../image/fpt-logo.png">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="../CSS/report.css">
+        <link rel="stylesheet" href="../CSS/report1.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
         <title>Report Attendance</title>
     </head>
     <body>
+        <h2><span style="margin-right: 800px">Hello <b>${sessionScope.acc.displayname} </b> ,</span>
+            &nbsp;
+            <span>
+                <a href="../logout" style="text-decoration: none">Logout?</a>
+            </span> </h2>
         <h1>Report Attendance </h1>
         <b>Group:</b> ${requestScope.group.gname} <br>
         <b>Subject: </b> ${requestScope.subject.subname} <br>
 
         <div id="container">   
 
-            
+
             <table class="table table-bordered table-striped">
                 <thead >
                     <tr>
@@ -32,9 +38,15 @@
                         <th scope="col">FULL NAME</th>
                         <th scope="col">ABSENT(%)</th>
                             <c:forEach var="i" begin="1" end="30">
-                            <th scope="col">
-                                <a href="#" style="text-decoration: none; font-weight: bold; color:black"> SLOT ${i}</a>
-                            </th>
+                            <th  scope="col">                             
+                                    <form  action="/myprojectprj301/lecturer/attview" method="post">
+                                        <input type="hidden" name="id" value="${i}"/>
+                                        <input type="hidden" name="flag" value="0"/>
+                                        <button class="bt2" type="submit" >
+                                            <span style="font-weight: bold">SLOT ${i}</span> 
+                                        </button>
+                                    </form>                              
+                            </th>             
                         </c:forEach>
                     </tr>                  
                 </thead>
