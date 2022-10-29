@@ -13,10 +13,9 @@
 <html>
     <head>      
         <link rel="icon" type="image/x-icon" href="../image/fpt-logo.png">
-
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Schedule Of Lecturer</title>
-        <link rel="stylesheet" href="../CSS/schedule1.css">
+        <link rel="stylesheet" href="../CSS/schedule.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     </head>
     <body>
@@ -26,7 +25,7 @@
                 <span>
                     <a href="../logout" style="text-decoration: none">Logout?</a>
                 </span> </h2>
-            <form id="form" action="/myprojectprj301/lecturer/schedule" method="post">
+            <form id="form" action="/myprojectprj301/lecturer/schedule" method="get">
                 <h1 style="text-align: center"> Schedule Of Lecturer </h1>
                 <b>Lecturer:</b>  <select name="lid" >
                     <c:if test="${requestScope.lid eq 0}">
@@ -67,14 +66,18 @@
                                     <c:forEach items="${requestScope.sessions}" var="ses">
                                         <c:if test="${helper.compare(ses.date,d) eq 0 and (ses.timeslot.tid eq slot.tid)}">
                                             <div>
-                                                <form  action="/myprojectprj301/lecturer/attview" method="post">
-                                                    <input type="hidden" name="id" value="${ses.id}"/>
+                                                <!--  <form  action="/myprojectprj301/lecturer/attview" method="post">
+                                                    <input type="hidden" name="id" value=" <%-- ${ses.id}  --%>"/>
                                                     <input type="hidden" name="flag" value="1"/>
                                                     <button class="bt" type="submit" style="border-radius: 12px;">
-                                                        <span>${ses.group.gname}
-                                                            Subject: ${ses.group.subject.subname} at ${ses.room.rname}</span> 
+                                                <span> <%--${ses.group.gname}
+                                                            Subject: ${ses.group.subject.subname} at ${ses.room.rname}  --%></span> 
                                                     </button>
-                                                </form>
+                                                </form> -->
+                                                <div class="bt">
+                                                    <a style="font-style: none;" href="/myprojectprj301/lecturer/att?id=${ses.id}&flag=1">${ses.group.gname} <br>
+                                                        Subject: ${ses.group.subject.subname} <br> at ${ses.room.rname}</a> <br/>
+                                                </div>
 
                                                 <c:if test="${ses.attendated}">
                                                     (<font  color="Green" style="text-align: center">Attended</font>)

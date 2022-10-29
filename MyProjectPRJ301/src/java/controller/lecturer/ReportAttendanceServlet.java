@@ -29,7 +29,7 @@ import model.Subject;
  *
  * @author ThinkPro
  */
-public class ReportAttendanceServlet extends HttpServlet {
+public class ReportAttendanceServlet extends BaseRoleController {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -66,12 +66,11 @@ public class ReportAttendanceServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-    }
-
+//    @Override
+//    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//
+//    }
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -80,52 +79,51 @@ public class ReportAttendanceServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        int gid, subid;
-        try {
-
-            gid = Integer.parseInt(request.getParameter("gid"));
-            subid = Integer.parseInt(request.getParameter("subid"));
-
-            SessionDBContext ssdb = new SessionDBContext();
-            ArrayList<Session> sessions = ssdb.getReportAttendance(gid, subid);
-            request.setAttribute("sessions", sessions);
-
-//            for (int i = 0; i < list.size(); i++) {
-//                System.out.println(list.get(i).getId());
+//    @Override
+//    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//        int gid, subid;
+//        try {
+//
+//            gid = Integer.parseInt(request.getParameter("gid"));
+//            subid = Integer.parseInt(request.getParameter("subid"));
+//
+//            SessionDBContext ssdb = new SessionDBContext();
+//            ArrayList<Session> sessions = ssdb.getReportAttendance(gid, subid);
+//            request.setAttribute("sessions", sessions);
+//
+////            for (int i = 0; i < list.size(); i++) {
+////                System.out.println(list.get(i).getId());
+////            }
+//            GroupDAO gd = new GroupDAO();
+//            Group g = gd.get(gid);
+//            request.setAttribute("group", g);
+//            SubjectDAO sd = new SubjectDAO();
+//            Subject sub = sd.get(subid);
+//            request.setAttribute("subject", sub);
+//            StudentDAO std = new StudentDAO();
+//            ArrayList<Student> stus = std.filterStudent(gid);
+//            request.setAttribute("stus", stus);
+//
+//            ArrayList<Attendance> atts = new ArrayList();
+//            AttendanceDAO atd = new AttendanceDAO();
+//            for (Student stu : stus) {
+//                for (Session ses : sessions) {
+//                    atts.add(atd.filterAttendance(ses.getId(), stu.getStdid()));
+//                }
 //            }
-            GroupDAO gd = new GroupDAO();
-            Group g = gd.get(gid);
-            request.setAttribute("group", g);
-            SubjectDAO sd = new SubjectDAO();
-            Subject sub = sd.get(subid);
-            request.setAttribute("subject", sub);
-            StudentDAO std = new StudentDAO();
-            ArrayList<Student> stus = std.filterStudent(gid);
-            request.setAttribute("stus", stus);
-
-            ArrayList<Attendance> atts = new ArrayList();
-            AttendanceDAO atd = new AttendanceDAO();
-            for (Student stu : stus) {
-                for (Session ses : sessions) {
-                    atts.add(atd.filterAttendance(ses.getId(), stu.getStdid()));
-                }
-            }
-            request.setAttribute("atts", atts);
-
-            Map<Integer, Double> map = atd.getNOAbsent(gid, subid);
-//            for (Map.Entry<Integer, Double> entry : map.entrySet()) {
-//                response.getWriter().println(entry.getKey() + "--- " + entry.getValue());
-//            }
-            request.setAttribute("flag", "0");
-            request.setAttribute("map", map);
-        } catch (NumberFormatException e) {
-        }
-        request.getRequestDispatcher("../view/lecturer/reportAttendanceOfStudent.jsp").forward(request, response);
-    }
-
+//            request.setAttribute("atts", atts);
+//
+//            Map<Integer, Double> map = atd.getNOAbsent(gid, subid);
+////            for (Map.Entry<Integer, Double> entry : map.entrySet()) {
+////                response.getWriter().println(entry.getKey() + "--- " + entry.getValue());
+////            }
+//            request.setAttribute("flag", "0");
+//            request.setAttribute("map", map);
+//        } catch (NumberFormatException e) {
+//        }
+//        request.getRequestDispatcher("../view/lecturer/reportAttendanceOfStudent.jsp").forward(request, response);
+//    }
     /**
      * Returns a short description of the servlet.
      *
@@ -135,5 +133,95 @@ public class ReportAttendanceServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    @Override
+    protected void processAuthPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//           int gid, subid;
+//        try {
+//
+//            gid = Integer.parseInt(req.getParameter("gid"));
+//            subid = Integer.parseInt(req.getParameter("subid"));
+//
+//            SessionDBContext ssdb = new SessionDBContext();
+//            ArrayList<Session> sessions = ssdb.getReportAttendance(gid, subid);
+//            req.setAttribute("sessions", sessions);
+//
+////            for (int i = 0; i < list.size(); i++) {
+////                System.out.println(list.get(i).getId());
+////            }
+//            GroupDAO gd = new GroupDAO();
+//            Group g = gd.get(gid);
+//            req.setAttribute("group", g);
+//            SubjectDAO sd = new SubjectDAO();
+//            Subject sub = sd.get(subid);
+//            req.setAttribute("subject", sub);
+//            StudentDAO std = new StudentDAO();
+//            ArrayList<Student> stus = std.filterStudent(gid);
+//            req.setAttribute("stus", stus);
+//
+//            ArrayList<Attendance> atts = new ArrayList();
+//            AttendanceDAO atd = new AttendanceDAO();
+//            for (Student stu : stus) {
+//                for (Session ses : sessions) {
+//                    atts.add(atd.filterAttendance(ses.getId(), stu.getStdid()));
+//                }
+//            }
+//            req.setAttribute("atts", atts);
+//
+//            Map<Integer, Double> map = atd.getNOAbsent(gid, subid);
+////            for (Map.Entry<Integer, Double> entry : map.entrySet()) {
+////                response.getWriter().println(entry.getKey() + "--- " + entry.getValue());
+////            }
+//            req.setAttribute("flag", "0");
+//            req.setAttribute("map", map);
+//        } catch (NumberFormatException e) {
+//        }
+//        req.getRequestDispatcher("../view/lecturer/reportAttendanceOfStudent.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void processAuthGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int gid, subid;
+        try {
+
+            gid = Integer.parseInt(req.getParameter("gid"));
+            subid = Integer.parseInt(req.getParameter("subid"));
+
+            SessionDBContext ssdb = new SessionDBContext();
+            ArrayList<Session> sessions = ssdb.getReportAttendance(gid, subid);
+            req.setAttribute("sessions", sessions);
+
+//            for (int i = 0; i < list.size(); i++) {
+//                System.out.println(list.get(i).getId());
+//            }
+            GroupDAO gd = new GroupDAO();
+            Group g = gd.get(gid);
+            req.setAttribute("group", g);
+            SubjectDAO sd = new SubjectDAO();
+            Subject sub = sd.get(subid);
+            req.setAttribute("subject", sub);
+            StudentDAO std = new StudentDAO();
+            ArrayList<Student> stus = std.filterStudent(gid);
+            req.setAttribute("stus", stus);
+
+            ArrayList<Attendance> atts = new ArrayList();
+            AttendanceDAO atd = new AttendanceDAO();
+            for (Student stu : stus) {
+                for (Session ses : sessions) {
+                    atts.add(atd.filterAttendance(ses.getId(), stu.getStdid()));
+                }
+            }
+            req.setAttribute("atts", atts);
+
+            Map<Integer, Double> map = atd.getNOAbsent(gid, subid);
+//            for (Map.Entry<Integer, Double> entry : map.entrySet()) {
+//                response.getWriter().println(entry.getKey() + "--- " + entry.getValue());
+//            }
+            req.setAttribute("flag", "0");
+            req.setAttribute("map", map);
+        } catch (NumberFormatException e) {
+        }
+        req.getRequestDispatcher("../view/lecturer/reportAttendanceOfStudent.jsp").forward(req, resp);
+    }
 
 }

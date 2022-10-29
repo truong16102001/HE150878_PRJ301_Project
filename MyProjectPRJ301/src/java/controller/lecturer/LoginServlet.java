@@ -86,16 +86,16 @@ public class LoginServlet extends HttpServlet {
             try {
                 session.setAttribute("acc", acc);
               //  session.setAttribute("flag", "1");
-//                Lecturer lec = db.getAcReturnLecturer(acc.getUsername(), acc.getPassword());
-//                //response.getWriter().print(lec.getLid() + " " + lec.getLname());
-//                if (lec != null) {
-//                    response.sendRedirect("lecturer/schedule?lid=" + lec.getLid() + "&from=" + "" + "&to=" + "");
-//                } else {
-//                    response.sendRedirect("lecturer/schedule?lid=" + "0" + "&from=" + "" + "&to=" + "");
-//                }
+                Lecturer lec = db.getAcReturnLecturer(acc.getUsername(), acc.getPassword());
+                //response.getWriter().print(lec.getLid() + " " + lec.getLname());
+                if (lec != null) {
+                    response.sendRedirect("lecturer/schedule?lid=" + lec.getLid() + "&from=" + "" + "&to=" + "");
+                } else {
+                    response.sendRedirect("lecturer/schedule?lid=" + "0" + "&from=" + "" + "&to=" + "");
+                }
 //               
                
-               response.sendRedirect("lecturer/schedule");
+        //       response.sendRedirect("lecturer/schedule");
             } catch (NullPointerException e) {
             }
         } else {

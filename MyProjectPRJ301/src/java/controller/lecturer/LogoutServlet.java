@@ -29,10 +29,12 @@ public class LogoutServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");      
-            request.getSession().setAttribute("acc", null);
-            response.sendRedirect("home");
-      
+        response.setContentType("text/html;charset=UTF-8");
+        //request.getSession().setAttribute("acc", null);
+        HttpSession session = request.getSession();
+        session.removeAttribute("acc");
+        response.sendRedirect("home");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

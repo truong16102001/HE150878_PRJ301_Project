@@ -44,7 +44,16 @@ span.label.label-success{
 }
 
 .bt:hover {
-    background-color: #4CAF50;
+    background-color: #99CC66;
+    color: white;
+}
+
+.bt a{
+    text-decoration: none;   
+}
+
+.bt a:hover{
+    text-decoration: none;
     color: white;
 }
 

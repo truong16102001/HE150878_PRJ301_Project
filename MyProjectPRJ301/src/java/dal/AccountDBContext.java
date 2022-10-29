@@ -148,61 +148,6 @@ public class AccountDBContext extends DBContext<Account> {
         return null;
     }
 
-    public Lecturer getAcReturnLecturer2(String username, String password) {
-        try {
-            String sql = "select l.lid, l.lname, g.gid,g.sem, g.subid,s.stdid,s.stdname, g.year, g.gname, ses.sesid, r.rid\n" +
-"                     ,r.rname, t.tid,t.[description] tdescription, ses.[index], ses.date, ses.attanded\n" +
-"                   from Lecturer l, Account a,[Student] s,[Student_Group] sg, [Group] g, Session ses, Room r, TimeSlot t, Subject sub\n" +
-"                                    where sg.gid = g.gid and s.stdid = sg.stdid and   sub.subid = g.subid and  r.rid = ses.rid and t.tid = ses.tid and l.lid = g.lid \n" +
-"                   			and l.lid = ses.lid and l.username = a.username and a.username = ? and a.password = ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, username);
-            stm.setString(2, password);
-            ResultSet rs = stm.executeQuery();
-            Lecturer lec = null;
-            while (rs.next()) {
-                if (lec == null) {
-                    lec = new Lecturer();
-                    lec.setLid(rs.getInt("lid"));
-                    lec.setLname(rs.getString("lname"));
-
-                    Group g = new Group();
-                    g.setGid(rs.getInt("gid"));
-                    g.setGname(rs.getString("gname"));
-
-                    Subject sub = new Subject();
-                    sub.setSubid(rs.getInt("subid"));
-                    sub.setSubname(rs.getString("subname"));
-                    g.setSubject(sub);
-
-                    lec.getGroups().add(g);
-
-                    Session ses = new Session();
-                    ses.setId(rs.getInt("sesid"));
-                    Room r = new Room();
-                    r.setRid(rs.getInt("rid"));
-                    r.setRname(rs.getString("rname"));
-                    ses.setRoom(r);
-                    TimeSlot t = new TimeSlot();
-                    t.setTid(rs.getInt("tid"));
-                    t.setDescription(rs.getString("tdescription"));
-                    ses.setTimeslot(t);
-                    Lecturer l = new Lecturer();
-                    l.setLid(rs.getInt("lid"));
-                    l.setLname(rs.getString("lname"));
-                    ses.setLecturer(l);
-                    ses.setGroup(g);
-                    ses.setDate(rs.getDate("date"));
-                    ses.setIndex(rs.getInt("index"));
-                    ses.setAttendated(rs.getBoolean("attanded"));
-                    lec.getSessions().add(ses);
-                }
-            }
-            return lec;
-        } catch (SQLException ex) {
-            Logger.getLogger(AccountDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
+   
 
 }
