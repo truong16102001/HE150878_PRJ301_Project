@@ -28,7 +28,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             </span> </h2>
         <c:if test="${requestScope.ses eq null}"> null </c:if>
 
-            <h1>Take Attendance</h1>          
+            <h1 style="text-align: center">Take Attendance</h1>          
             <b>Group:</b> ${requestScope.ses.group.gname} <br>
         <b>Subject: </b> ${requestScope.ses.group.subject.subname} <br>
         <b> Room: </b>  ${requestScope.ses.room.rname} <br/>
@@ -49,13 +49,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <table class="table table-bordered table-striped">
                 <thead style="background-color: #6b90da">
                     <tr>
-                        <th scope="col">No.</th>                      
-                        <th scope="col">ROLL NUMBER</th>
-                        <th scope="col">FULL NAME</th>
-                        <th scope="col">ABSENT</th>
-                        <th scope="col">PRESENT</th>
-                        <th scope="col">NOTE</th>  
-                        <th scope="col">Record Time</th>
+                        <th scope="col" style="text-align: center">No.</th>                      
+                        <th scope="col" style="text-align: center" >ROLL NUMBER</th>
+                        <th scope="col" style="text-align: center">FULL NAME</th>
+                        <th scope="col"style="text-align: center">ABSENT</th>
+                        <th scope="col"style="text-align: center">PRESENT</th>
+                        <th scope="col"style="text-align: center">NOTE</th>  
+                        <th scope="col"style="text-align: center">Record Time</th>
                     </tr>
                 </thead>
                 <tbody> 
@@ -71,28 +71,28 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <c:if test="${(requestScope.ses.attendances ne null) and (requestScope.ses.attendances.size() > 0)}">
                         <c:forEach items="${requestScope.ses.attendances}" var="att" varStatus="loop">
                             <tr>
-                                <th scope="col">${loop.index + 1} </th>
-                                <th scope="col" >
+                                <th scope="col" style="text-align: center">${loop.index + 1} </th>
+                                <th scope="col" style="text-align: center">
                                     ${att.student.stdid} <input type="hidden" name="stdid" value="${att.student.stdid}"/>
                                 </th>
-                                <th scope="col">${att.student.stdname} </th>
-                                <th scope="col">
+                                <td style="text-align: center">${att.student.stdname} </td>
+                                <th scope="col" style="text-align: center">
                                     <input type="radio" 
                                            <c:if test="${att.present}">  checked="checked"  </c:if> 
                                            name="present${att.student.stdid}" value="present" />  
                                 </th>
 
-                                <th scope="col">
+                                <th scope="col" style="text-align: center">
                                     <input type="radio"
                                            <c:if test="${!att.present}"> checked="checked" </c:if>
                                            name="present${att.student.stdid}" value="absent" /> 
                                 </th>
-                                <th scope="col">
+                                <th scope="col" style="text-align: center">
                                     <input type="text" name="description${att.student.stdid}" value="${att.description}" /> 
                                 </th>
-                                <th scope="col">
+                                <td style="text-align: center">
                                     ${att.record_time}
-                                </th>
+                                </td>
                             </tr>
                         </c:forEach>
                     </c:if>

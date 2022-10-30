@@ -28,6 +28,10 @@
         <servlet-name>AttendanceView</servlet-name>
         <servlet-class>controller.lecturer.AttendanceView</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PersonalReportServlet</servlet-name>
+        <servlet-class>controller.lecturer.PersonalReportServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AttendanceCheckingServlet</servlet-name>
         <url-pattern>/lecturer/att</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>AttendanceView</servlet-name>
         <url-pattern>/lecturer/attview</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PersonalReportServlet</servlet-name>
+        <url-pattern>/lecturer/personalreport</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

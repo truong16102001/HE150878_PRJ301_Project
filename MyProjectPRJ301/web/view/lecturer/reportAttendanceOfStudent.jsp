@@ -25,7 +25,7 @@
             <span>
                 <a href="../logout" style="text-decoration: none">Logout?</a>
             </span> </h2>
-        <h1>Report Attendance </h1>
+        <h1 style="text-align: center">Report Attendance </h1>
         <b>Group:</b> ${requestScope.group.gname} <br>
         <b>Subject: </b> ${requestScope.subject.subname} <br>
       
@@ -61,20 +61,20 @@
 
                     <c:forEach items="${requestScope.stus}" var="stu" >
                         <tr>
-                            <th scope="col" >
-                                <a href="#" style="text-decoration: none; color:black"> ${stu.stdid} </a> 
+                            <th scope="row" >
+                                <a href="/myprojectprj301/lecturer/personalreport?" style="text-decoration: none; color:black"> ${stu.stdid} </a> 
                                 <input type="hidden" name="stdid" value="${stu.stdid}"/>
                             </th>
 
-                            <th scope="col">${stu.stdname} </th>
+                            <td>${stu.stdname} </td>
 
-                            <th scope="col">
+                            <td>
                                 <c:forEach var="entry" items="${requestScope.map}">
                                     <c:if test="${entry.key eq stu.stdid}">
                                         ${entry.value}%
                                     </c:if>
                                 </c:forEach>
-                            </th>
+                            </td>
 
                             <c:forEach var="i" begin="1" end="30"> 
                                 <th scope="col"> 
