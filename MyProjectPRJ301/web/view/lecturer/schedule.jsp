@@ -25,7 +25,7 @@
                 <span>
                     <a href="../logout" style="text-decoration: none">Logout?</a>
                 </span> </h2>
-            <form id="form" action="/myprojectprj301/lecturer/schedule" method="get">
+            <form id="form" action="/myprojectprj301/lecturer/schedule" method="get" onsubmit="return check();">
                 <h1 style="text-align: center"> Schedule Of Lecturer </h1>
                 <b>Lecturer:</b>  <select name="lid" >
                     <c:if test="${requestScope.lid eq 0}">
@@ -37,10 +37,10 @@
                     </c:forEach>
                 </select> <br>
 
-                <b>From:</b> <input type="date" name="from" value="${sessionScope.from}"/>               
-                <b> To:</b> <input type="date" name="to" value="${sessionScope.to}"/>
+                <b>From:</b> <input id="from" type="date" name="from" value="${sessionScope.from}"/>               
+                <b> To:</b> <input id="to" type="date" name="to" value="${sessionScope.to}"/>
 
-                <input type="submit" value="View"/> 
+                <input  type="submit" value="View"/> 
             </form>
 
             <table class="table table-bordered table-striped">
@@ -102,9 +102,20 @@
         </div>
 
         <script>
-            function change() {
-                document.getElementById("form").submit();
+
+            function check() {
+                var from = document.getElementById('from').value;
+                var to = document.getElementById('to').value;
+                if (from > to) {
+                    alert("Invalie To Date");                 
+                    return false;
+                } else {
+                   // document.getElementById("form").submit();   
+                   return true;
+                }
             }
+            
+            
         </script>
     </body>
 </html>
