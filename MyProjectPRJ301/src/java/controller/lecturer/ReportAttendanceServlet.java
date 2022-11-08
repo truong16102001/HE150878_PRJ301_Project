@@ -181,14 +181,14 @@ public class ReportAttendanceServlet extends BaseRoleController {
 
     @Override
     protected void processAuthGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int gid, subid;
+        int gid;
         try {
 
             gid = Integer.parseInt(req.getParameter("gid"));
-            subid = Integer.parseInt(req.getParameter("subid"));
+          //  subid = Integer.parseInt(req.getParameter("subid"));
 
             SessionDBContext ssdb = new SessionDBContext();
-            ArrayList<Session> sessions = ssdb.getReportAttendance(gid, subid);
+            ArrayList<Session> sessions = ssdb.getReportAttendance(gid);
             req.setAttribute("sessions", sessions);
 
 //            for (int i = 0; i < list.size(); i++) {
@@ -197,9 +197,7 @@ public class ReportAttendanceServlet extends BaseRoleController {
             GroupDAO gd = new GroupDAO();
             Group g = gd.get(gid);
             req.setAttribute("group", g);
-            SubjectDAO sd = new SubjectDAO();
-            Subject sub = sd.get(subid);
-            req.setAttribute("subject", sub);
+         
             StudentDAO std = new StudentDAO();
             ArrayList<Student> stus = std.filterStudent(gid);
             req.setAttribute("stus", stus);
@@ -213,7 +211,7 @@ public class ReportAttendanceServlet extends BaseRoleController {
             }
             req.setAttribute("atts", atts);
 
-            Map<Integer, Double> map = atd.getNOAbsent(gid, subid);
+            Map<Integer, Double> map = atd.getNOAbsent(gid);
 //            for (Map.Entry<Integer, Double> entry : map.entrySet()) {
 //                response.getWriter().println(entry.getKey() + "--- " + entry.getValue());
 //            }

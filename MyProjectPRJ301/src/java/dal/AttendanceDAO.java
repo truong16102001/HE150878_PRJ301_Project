@@ -105,7 +105,7 @@ public class AttendanceDAO extends DBContext<Attendance> {
         return null;
     }
 
-    public Map<Integer, Double> getNOAbsent(int gid, int subid) {
+    public Map<Integer, Double> getNOAbsent(int gid) {
         Map<Integer, Double> list = new HashMap<>();
 
         try {
@@ -115,11 +115,11 @@ public class AttendanceDAO extends DBContext<Attendance> {
                     + "						inner join Student_Group sg on sg.gid = g.gid\n"
                     + "						inner JOIN [Student] s ON s.stdid = sg.stdid\n"
                     + "                       LEFT JOIN Attandance a ON s.stdid = a.stdid AND ses.sesid = a.sesid\n"
-                    + "					   where g.gid = ? and sub.subid = ? \n"
+                    + "					   where g.gid = ? \n"
                     + "					   group by s.stdid";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, gid);
-            ps.setInt(2, subid);
+           // ps.setInt(2, subid);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.put(rs.getInt("stdid"), Math.round((rs.getInt("NumberOfAbsent") * 100.0 / 30) * 10) / 10.0);

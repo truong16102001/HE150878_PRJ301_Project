@@ -15,16 +15,18 @@
         <link rel="icon" type="image/x-icon" href="../image/fpt-logo.png">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Schedule Of Lecturer</title>
-        <link rel="stylesheet" href="../CSS/schedule.css">
+        <link rel="stylesheet" href="../CSS/schedule1.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     </head>
     <body>
         <div id="container">
-            <h2><span style="margin-right: 800px">Hello <b>${sessionScope.acc.displayname} </b> ,</span>
-                &nbsp;
-                <span>
-                    <a href="../logout" style="text-decoration: none">Logout?</a>
-                </span> </h2>
+             <h3 style="background-color: #f5f5f5; border-radius: 4px">
+            <span style="margin-right: 750px; background:  #5cb85c ;padding: 0 10px;border-radius: 8px;">Hello <b>${sessionScope.acc.displayname} </b> ,</span>
+            &nbsp;
+            <span class="lo">
+                <a href="../logout" style="text-decoration: none; background:  #5cb85c; border-radius: 8px; padding: 0 10px;" > Logout?</a>
+            </span> </h3>
+
             <form id="form" action="/myprojectprj301/lecturer/schedule" method="get" onsubmit="return check();">
                 <h1 style="text-align: center"> Schedule Of Lecturer </h1>
                 <b>Lecturer:</b>  <select name="lid" >
@@ -107,15 +109,15 @@
                 var from = document.getElementById('from').value;
                 var to = document.getElementById('to').value;
                 if (from > to) {
-                    alert("Invalie To Date");                 
+                    alert("Invalie To Date");
                     return false;
                 } else {
-                   // document.getElementById("form").submit();   
-                   return true;
+                    // document.getElementById("form").submit();   
+                    return true;
                 }
             }
-            
-            
+
+
         </script>
     </body>
 </html>

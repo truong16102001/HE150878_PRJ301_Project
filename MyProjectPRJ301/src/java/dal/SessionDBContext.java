@@ -93,7 +93,7 @@ public class SessionDBContext extends dal.DBContext<Session> {
         return sessions;
     }
 
-    public ArrayList<Session> getReportAttendance(int gid, int subid) {
+    public ArrayList<Session> getReportAttendance(int gid) {
         ArrayList<Session> list = new ArrayList();
         try {
             String sql = "SELECT ses.sesid,ses.[index],ses.date,ses.attanded,g.gid,g.gname ,l.lid,l.lname,sub.subid,sub.subname  \n"
@@ -104,10 +104,10 @@ public class SessionDBContext extends dal.DBContext<Session> {
                     + "                  INNER JOIN Room r ON r.rid = ses.rid\n"
                     + "                  INNER JOIN TimeSlot t ON t.tid = ses.tid  \n"
                     + "                  INNER JOIN [Subject] sub ON sub.subid = g.subid  \n"
-                    + "                 WHERE g.gid = ? and sub.subid = ?";
+                    + "                 WHERE g.gid = ? ";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, gid);
-            ps.setInt(2, subid);
+         //   ps.setInt(2, subid);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -117,7 +117,7 @@ public class SessionDBContext extends dal.DBContext<Session> {
                 ses.setId(rs.getInt("sesid"));
                 ses.setDate(rs.getDate("date"));
                 ses.setIndex(rs.getInt("index"));
-
+                ses.setAttendated(rs.getBoolean("attanded"));
                 Lecturer l = new Lecturer();
                 l.setLid(rs.getInt("lid"));
                 l.setLname(rs.getString("lname"));
@@ -233,85 +233,7 @@ public class SessionDBContext extends dal.DBContext<Session> {
         return null;
     }
 
-//    public ArrayList<Session> getSessionByCond(int gid, int subid) {
-//        try {
-//            String sql = " \n"
-//                    + "	SELECT ses.sesid,ses.[index],ses.date,ses.attanded\n"
-//                    + "                                       	,g.gid,g.gname\n"
-//                    + "                                     	,r.rid,r.rname\n"
-//                    + "                                     	,t.tid,t.[description] tdescription\n"
-//                    + "                                    	,l.lid,l.lname\n"
-//                    + "                                      	,sub.subid,sub.subname\n"
-//                    + "                                      	,s.stdid,s.stdname\n"
-//                    + "                                      	,ISNULL(a.present,1) present, ISNULL(a.[description],'') [description], isnull(a.record_time,'') record_time\n"
-//                    + "                                      		FROM [Session] ses\n"
-//                    + "                                        		INNER JOIN Room r ON r.rid = ses.rid\n"
-//                    + "                                       		INNER JOIN TimeSlot t ON t.tid = ses.tid\n"
-//                    + "                                     		INNER JOIN Lecturer l ON l.lid = ses.lid\n"
-//                    + "                                      		INNER JOIN [Group] g ON g.gid = ses.gid\n"
-//                    + "                                      		INNER JOIN [Subject] sub ON sub.subid = g.subid\n"
-//                    + "                                       		left JOIN [Student_Group] sg ON sg.gid = g.gid\n"
-//                    + "                                      		left JOIN [Student] s ON s.stdid = sg.stdid\n"
-//                    + "                                       		LEFT JOIN Attandance a ON s.stdid = a.stdid AND ses.sesid = a.sesid\n"
-//                    + "                                   WHERE g.gid = ? and sub.subid = ?";
-//            PreparedStatement ps = connection.prepareStatement(sql);
-//            ps.setInt(1, gid);
-//            ps.setInt(2, subid);
-//            ResultSet rs = ps.executeQuery();
-//            ArrayList<Session> list = new ArrayList();
-//            while (rs.next()) {
-//                Session ses;
-//
-//                ses = new Session();
-//                ses.setId(rs.getInt("sesid"));
-//                ses.setDate(rs.getDate("date"));
-//                ses.setIndex(rs.getInt("index"));
-//
-//                Lecturer l = new Lecturer();
-//                l.setLid(rs.getInt("lid"));
-//                l.setLname(rs.getString("lname"));
-//                ses.setLecturer(l);
-//
-//                Group g = new Group();
-//                g.setGid(rs.getInt("gid"));
-//                g.setGname(rs.getString("gname"));
-//                ses.setGroup(g);
-//
-//                Room r = new Room();
-//                r.setRid(rs.getInt("rid"));
-//                r.setRname(rs.getString("rname"));
-//                ses.setRoom(r);
-//
-//                TimeSlot t = new TimeSlot();
-//                t.setTid(rs.getInt("tid"));
-//                t.setDescription(rs.getString("tdescription"));
-//                ses.setTimeslot(t);
-//
-//                Subject sub = new Subject();
-//                sub.setSubid(rs.getInt("subid"));
-//                sub.setSubname(rs.getString("subname"));
-//                g.setSubject(sub);
-//                //read student
-//                if (rs.getInt("stdid") != 0) {
-//                    Student s = new Student();
-//                    s.setStdid(rs.getInt("stdid"));
-//                    s.setStdname(rs.getString("stdname"));
-//                    //read attandance
-//                    Attendance a = new Attendance();
-//                    a.setStudent(s);
-//                    a.setSession(ses);
-//                    a.setPresent(rs.getBoolean("present"));
-//                    a.setDescription(rs.getString("description"));
-//                    a.setRecord_time(rs.getString("record_time"));
-//                    ses.getAttendances().add(a);
-//                }
-//                list.add(ses);
-//            }
-//            return list;
-//        } catch (SQLException e) {
-//        }
-//        return null;
-//    }
+
 
     @Override
     public void insert(Session model) {

@@ -41,7 +41,7 @@ public class GroupDAO extends DBContext<Group> {
     @Override
     public Group get(int id) {
         try {
-            String sql = "SELECT gid,gname FROM [Group] WHERE gid = ?";
+            String sql = "SELECT gid, gname, subid FROM [Group] WHERE gid = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
@@ -49,7 +49,10 @@ public class GroupDAO extends DBContext<Group> {
                 Group g = new Group();
                 g.setGid(rs.getInt("gid"));
                 g.setGname(rs.getString("gname"));
-
+                SubjectDAO subd = new SubjectDAO();
+                
+                Subject sub = subd.get(rs.getInt("subid"));
+                g.setSubject(sub);
                 return g;
             }
         } catch (SQLException ex) {
@@ -63,24 +66,25 @@ public class GroupDAO extends DBContext<Group> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public Group getALL(int stdid, int subid) {
-        String sql = "select s.stdid, s.stdname, g.gid, g.gname, g.subid, sub.subname, g.sem, g.year, g.lid as supervisorid, lec.lname as supervisorname, ses.sesid, ses.lid as lecid,  r.rid,r.rname, ses.date, t.tid, \n"
-                + "t.description as tdescription, ses.[index], ses.attanded, a.present, a.description, a.record_time\n"
-                + "from Student s inner join Student_Group sg on  s.stdid = sg.stdid \n"
-                + "inner join [Group] g on g.gid = sg.gid\n"
-                + "inner join Subject sub on sub.subid = g.subid\n"
-                + "inner join Session ses on ses.gid = g.gid\n"
-                + "inner join Lecturer lec on lec.lid = g.lid\n"
-                + "inner join TimeSlot t on t.tid = ses.tid\n"
-                + "inner join Room r on r.rid = ses.rid\n"
-                + "inner join Attandance a on a.stdid = s.stdid and a.sesid = ses.sesid\n"
-                + "where s.stdid = ? and sub.subid = ?"
-                + " order by ses.sesid";
+    public Group getALL(int stdid, int gid) {
+
+        String sql = "	select s.stdid, s.stdname, g.gid, g.gname, g.subid, sub.subname, g.sem, g.year, \n"
+                + "									g.lid as supervisorid, lec.lname as supervisorname, ses.sesid, ses.lid as lecid,  r.rid,r.rname, ses.date, t.tid, \n"
+                + "					t.description as tdescription, ses.[index], ses.attanded\n"
+                + "					from Student s inner join Student_Group sg on  s.stdid = sg.stdid \n"
+                + "					inner join [Group] g on g.gid = sg.gid\n"
+                + "					inner join Subject sub on sub.subid = g.subid\n"
+                + "				   inner join Session ses on ses.gid = g.gid\n"
+                + "					inner join Lecturer lec on lec.lid = g.lid\n"
+                + "					inner join TimeSlot t on t.tid = ses.tid\n"
+                + "					inner join Room r on r.rid = ses.rid               \n"
+                + "				   where s.stdid = ? and g.gid = ?\n"
+                + "					 order by ses.sesid";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, stdid);
-            ps.setInt(2, subid);
+            ps.setInt(2, gid);
             ResultSet rs = ps.executeQuery();
             Group g = null;
             while (rs.next()) {
@@ -114,7 +118,7 @@ public class GroupDAO extends DBContext<Group> {
                 ses.setTimeslot(t);
                 ses.setIndex(rs.getInt("index"));
                 LecturerDBContext ldb = new LecturerDBContext();
-                Lecturer l = ldb.get(rs.getInt("lecid"));              
+                Lecturer l = ldb.get(rs.getInt("lecid"));
                 ses.setLecturer(l);
                 ses.setAttendated(rs.getBoolean("attanded"));
                 g.getSess().add(ses);

@@ -5,6 +5,14 @@
     margin: 100px;
 }
 
+.lo a{
+    font-weight: bold;
+    color:black;
+}
+.lo a:hover{
+    background-color: gray;
+    color:white;
+}
 
 .label {
     display: inline;

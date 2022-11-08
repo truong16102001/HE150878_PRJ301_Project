@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Student;
@@ -74,5 +76,30 @@ public class StudentDAO extends DBContext<Student> {
             Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, e);
         }
         return list;
+    }
+
+    public Map<Integer, Double> getNOAbsent(int gid, int stdid) {
+        Map<Integer, Double> map = new HashMap<>();
+        try {
+            String sql = "select s.stdid, sum(case present when 1 then 1 else 0 end) as [NumberOfAbsent]\n"
+                    + "from Session ses inner join [Group] g on ses.gid = g.gid\n"
+                    + "							inner join Subject sub on sub.subid = g.subid\n"
+                    + "						inner join Student_Group sg on sg.gid = g.gid\n"
+                    + "						inner JOIN [Student] s ON s.stdid = sg.stdid\n"
+                    + "                       LEFT JOIN Attandance a ON s.stdid = a.stdid AND ses.sesid = a.sesid\n"
+                    + "					   where g.gid = ? and s.stdid = ? \n"
+                    + "					   group by s.stdid";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, gid);
+            ps.setInt(2, stdid);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                map.put(rs.getInt("NumberOfAbsent"), Math.round((rs.getInt("NumberOfAbsent") * 100.0 / 30) * 10) / 10.0);
+            }
+            return map;
+        } catch (SQLException e) {
+            Logger.getLogger(AttendanceDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return null;
     }
 }

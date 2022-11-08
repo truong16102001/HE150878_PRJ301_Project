@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Map;
 import model.Attendance;
 import model.Group;
 import model.Session;
@@ -68,23 +69,24 @@ public class PersonalReportServlet extends HttpServlet {
         //processRequest(request, response);
         try {
             int stdid = Integer.parseInt(request.getParameter("stdid"));
-            int subid = Integer.parseInt(request.getParameter("subid"));
+            int gid = Integer.parseInt(request.getParameter("gid"));
             GroupDAO gd = new GroupDAO();
-            Group g = gd.getALL(stdid, subid);
-            
+            Group g = gd.getALL(stdid, gid);
+
             request.setAttribute("g", g);
             AttendanceDAO ad = new AttendanceDAO();
             StudentDAO std = new StudentDAO();
             Student st = std.get(stdid);
-            SubjectDAO subd = new SubjectDAO();
-            Subject sub = subd.get(subid);
             request.setAttribute("st", st);
-            request.setAttribute("sub", sub);
+
             ArrayList<Attendance> atts = new ArrayList();
             for (int i = 0; i < g.getSess().size(); i++) {
                 Session s = g.getSess().get(i);
                 atts.add(ad.getAttFromCondition(stdid, s.getId()));
             }
+
+            Map map = std.getNOAbsent(gid, stdid);
+            request.setAttribute("map", map);
             request.setAttribute("atts", atts);
             request.getRequestDispatcher("../view/lecturer/personalReport.jsp").forward(request, response);
         } catch (NumberFormatException e) {

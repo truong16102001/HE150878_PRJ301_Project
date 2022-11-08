@@ -25,7 +25,14 @@ table {
     border: 3px solid #3e8e41;
     border-radius: 5px;
 }
-
+.lo a{
+    font-weight: bold;
+    color:black;
+}
+.lo a:hover{
+    background-color: gray;
+    color:white;
+}
 .bt2:hover{
 
     background-color: #3e8e41;
@@ -39,6 +46,16 @@ table thead tr:first-child {
     background-color: #6b90da;
 }
 
+.rnumber{
+   
+    border: 3px solid #3e8e41;
+    border-radius: 5px;
+}
+
+.rnumber:hover{
+    background-color: green;
+   color: white;
+}
 
 table thead tr th:first-child {
     position: sticky;
@@ -66,6 +83,10 @@ table tbody tr td:first-child {
 
 .bt1:hover{
     background-color: #008CBA;
+    color: white;
+}
+
+.rnumber2:hover{
     color: white;
 }
 

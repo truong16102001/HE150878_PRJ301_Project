@@ -10,7 +10,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 <html>
     <head>
         <link rel="icon" type="image/x-icon" href="../image/fpt-logo.png">
-        <link rel="stylesheet" href="../CSS/attendancecheck.css">
+        <link rel="stylesheet" href="../CSS/attendancecheck1.css">
         <title>Attendance Checking</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -21,11 +21,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
     </head>
     <body>
-        <h2><span style="margin-right: 800px">Hello <b>${sessionScope.acc.displayname} </b> ,</span>
+        <h3 style="background-color: #f5f5f5; border-radius: 4px">
+            <span style="margin-right: 790px; background:  #5cb85c ;padding: 0 10px;border-radius: 8px;">Hello <b>${sessionScope.acc.displayname} </b> ,</span>
             &nbsp;
-            <span>
-                <a href="../logout" style="text-decoration: none">Logout?</a>
-            </span> </h2>
+            <span class="lo">
+                <a href="../logout" style="text-decoration: none; background:  #5cb85c; border-radius: 8px; padding: 0 10px;" > Logout?</a>
+            </span> </h3>
         <c:if test="${requestScope.ses eq null}"> null </c:if>
 
             <h1 style="text-align: center">Take Attendance</h1>          
@@ -111,7 +112,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 <c:if test="${(requestScope.flag eq 1)}">                                              
                     <form action="/myprojectprj301/lecturer/reportattendance" method="get">
                         <input type="hidden" name="gid" value="${requestScope.ses.group.gid}" />
-                        <input type="hidden" name="subid" value="${requestScope.ses.group.subject.subid}" />
 
                         <button  class="btt" type="submit" style="border-radius: 10px" > 
                             VIEW ATTENDANCE REPORT <i class="fa fa-arrow-circle-right"></i>                           

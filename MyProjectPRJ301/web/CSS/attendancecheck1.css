@@ -21,6 +21,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     border-radius: 10px;
 }
 
+.lo a{
+    font-weight: bold;
+    color:black;
+}
+.lo a:hover{
+    background-color: gray;
+    color:white;
+}
+
 .add button:hover{
     background-color: #4CAF50;
     color: white;
