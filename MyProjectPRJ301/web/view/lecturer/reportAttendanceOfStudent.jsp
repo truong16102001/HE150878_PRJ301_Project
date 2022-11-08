@@ -62,7 +62,8 @@
                     <c:forEach items="${requestScope.stus}" var="stu" >
                         <tr>
                             <th scope="row" >
-                                <a href="/myprojectprj301/lecturer/personalreport?stdid=${stu.stdid}&" style="text-decoration: none; color:black"> ${stu.stdid} </a> 
+                                <a href="/myprojectprj301/lecturer/personalreport?stdid=${stu.stdid}&subid=${requestScope.subject.subid}" 
+                                   style="text-decoration: none; color:black"> ${stu.stdid} </a> 
                                 <input type="hidden" name="stdid" value="${stu.stdid}"/>
                             </th>
 

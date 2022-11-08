@@ -17,6 +17,44 @@ public class Group {
     private ArrayList<Student> students = new ArrayList();
     private Subject subject;
     private Lecturer supervisor;
+    private ArrayList<Session> sess = new ArrayList();
+    private String sem;
+    private int year;
+
+    
+    public Group(int gid, String gname, Subject subject, Lecturer supervisor, String sem, int year) {
+        this.gid = gid;
+        this.gname = gname;
+        this.subject = subject;
+        this.supervisor = supervisor;
+        this.sem = sem;
+        this.year = year;
+    }
+
+    public String getSem() {
+        return sem;
+    }
+
+    public void setSem(String sem) {
+        this.sem = sem;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+    
+    
+    public ArrayList<Session> getSess() {
+        return sess;
+    }
+
+    public void setSess(ArrayList<Session> sess) {
+        this.sess = sess;
+    }
 
     public Group() {
     }

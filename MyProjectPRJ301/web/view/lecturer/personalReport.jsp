@@ -4,6 +4,7 @@
     Author     : ThinkPro
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -24,11 +25,11 @@
                 <a href="../logout" style="text-decoration: none">Logout?</a>
             </span> </h2>
         <h1 style="text-align: center">Personal Report </h1>
-        <b>Student: </b> ${requestScope.group.gname} <br>
-        <b>Subject: </b> ${requestScope.subject.subname} <br>
-        <b>Semester: </b> ${requestScope.subject.subname} <br>
-        <b>Year: </b> ${requestScope.subject.subname} <br>
-        <div id="container">   
+        <b>Student: </b> ${requestScope.st.stdname} - RollNumber: ${requestScope.st.stdid} <br>
+        <b>Subject: </b> ${requestScope.sub.subname} <br>
+        <b>Semester: </b> ${requestScope.g.sem} <br>
+        <b>Year: </b> ${requestScope.g.year} <br>
+        <div id="container"> 
             <table class="table table-bordered table-striped">
                 <thead class="table table-primary">
                     <tr>
@@ -43,46 +44,33 @@
                     </tr>                  
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="col" style="text-align: center;">1</th>                      
-                        <td> <span class="label label-primary"> Wednesday 14/09/2022 </span> </td> 
-                        <td> <span class="label label-danger"> 6_(16:10-17:40) </span> </td>
-                        <th scope="col" style="text-align: center">DE-C203</th>
-                        <th scope="col" style="text-align: center">E</th>
-                        <th scope="col" style="text-align: center">F </th>  
-                        <th scope="col" style="text-align: center">G </th>
-                        <th scope="col" style="text-align: center">H</th>
-                    </tr>
-                    <tr>
-                        <th scope="col" style="text-align: center;">2</th>                      
-                        <th scope="col" style="text-align: center" >B</th>
-                        <th scope="col" style="text-align: center">C</th>
-                        <th scope="col" style="text-align: center">DE-C203</th>
-                        <th scope="col" style="text-align: center">E</th>
-                        <th scope="col" style="text-align: center">F </th>  
-                        <th scope="col" style="text-align: center">G </th>
-                        <th scope="col" style="text-align: center">H</th>
-                    </tr>
-                    <tr>
-                        <th scope="col" style="text-align: center;">3</th>                      
-                        <th scope="col" style="text-align: center" >B</th>
-                        <th scope="col" style="text-align: center">C</th>
-                        <th scope="col" style="text-align: center">D</th>
-                        <th scope="col" style="text-align: center">E</th>
-                        <th scope="col" style="text-align: center">F </th>  
-                        <th scope="col" style="text-align: center">G </th>
-                        <th scope="col" style="text-align: center">H</th>
-                    </tr>
-                    <tr>
-                        <th scope="col" style="text-align: center;">4</th>                      
-                        <th scope="col" style="text-align: center" >B</th>
-                        <th scope="col" style="text-align: center">C</th>
-                        <th scope="col" style="text-align: center">D</th>
-                        <th scope="col" style="text-align: center">E</th>
-                        <th scope="col" style="text-align: center">F </th>  
-                        <th scope="col" style="text-align: center">G </th>
-                        <th scope="col" style="text-align: center">H</th>
-                    </tr>
+                    <c:forEach begin="1" end="30" var="i" >
+                        <tr>
+                            <th scope="col" style="text-align: center;">${i}</th>    
+                                <c:forEach items="${requestScope.g.sess}" var="ses">
+                                    <c:if test="${ses.id eq i }">
+                                    <td style="text-align: center;">${ses.date}</td>
+                                    <td style="text-align: center;">${ses.timeslot.description}</td>
+                                    <td style="text-align: center;">${ses.room.rname}</td>
+                                    <td style="text-align: center;">${ses.lecturer.lname}</td>
+                                    <td style="text-align: center;">${requestScope.g.gname}</td>
+                                    <c:forEach  items="${requestScope.atts}" var="a">
+                                        <c:if test="${a.session.id eq ses.id}">
+                                            <td style="text-align: center;"> 
+                                                <c:if test="${a.present}">
+                                                    <span style="color: green; font-weight: bold">Present</span>
+                                                </c:if>
+                                                <c:if test="${!a.present}">
+                                                    <span style="color: red; font-weight: bold">Absent</span>
+                                                </c:if>
+                                            </td>
+                                            <td style="text-align: center;">${a.description}</td>
+                                        </c:if>
+                                    </c:forEach>
+                                </c:if>
+                            </c:forEach>
+                        </tr>
+                    </c:forEach>
                 </tbody>
             </table>
 

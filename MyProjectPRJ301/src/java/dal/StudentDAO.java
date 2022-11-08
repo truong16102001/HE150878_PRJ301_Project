@@ -16,7 +16,7 @@ import model.Student;
  *
  * @author ThinkPro
  */
-public class StudentDAO extends DBContext<Student>{
+public class StudentDAO extends DBContext<Student> {
 
     @Override
     public void insert(Student model) {
@@ -35,15 +35,28 @@ public class StudentDAO extends DBContext<Student>{
 
     @Override
     public Student get(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "select stdid, stdname from Student where stdid = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Student st = new Student();
+                st.setStdid(rs.getInt("stdid"));
+                st.setStdname(rs.getString("stdname"));
+                return st;
+            }
+        } catch (SQLException e) {
+        }
+        return null;
     }
 
     @Override
     public ArrayList<Student> list() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-    public ArrayList<Student> filterStudent(int gid){
+
+    public ArrayList<Student> filterStudent(int gid) {
         ArrayList<Student> list = new ArrayList();
         try {
             String sql = " select st.stdid, st.stdname from Student st inner join "
@@ -51,12 +64,12 @@ public class StudentDAO extends DBContext<Student>{
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, gid);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 Student st = new Student();
                 st.setStdid(rs.getInt("stdid"));
-                st.setStdname(rs.getString("stdname"));            
+                st.setStdname(rs.getString("stdname"));
                 list.add(st);
-            }          
+            }
         } catch (SQLException e) {
             Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, e);
         }
